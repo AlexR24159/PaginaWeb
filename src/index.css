@@ -1,0 +1,40 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* -------- SCROLLBAR GLOBAL (si la quieres fina en todo) -------- */
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+::-webkit-scrollbar-thumb {
+  border-radius: 25px;
+  transition: all 0.3s;
+  background-color: rgba(106, 115, 125, 0.2);
+}
+::-webkit-scrollbar-corner {
+  display: none;
+}
+
+/* -------- SCROLLBAR ESPECIAL SOLO PARA EL GRID -------- */
+.custom-scrollbar::-webkit-scrollbar {
+  height: 16px !important;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #2563eb;
+  border-radius: 8px;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: #dbeafe;
+}
+
+/* -------- FONDO GLOBAL (modo claro/oscuro real en toda la página) -------- */
+html, body {
+  @apply bg-gray-50 text-gray-800;
+}
+body.dark {
+  @apply bg-gray-900 text-white;
+}
