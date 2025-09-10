@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useStore } from '../../context/StoreContext';
 import { COLORS } from '../../utils/constants';
 import RatingStars from "../RatingStars"; // ¡Importa aquí tu componente!
@@ -18,6 +18,7 @@ const ProductPopupModal = () => {
     closeProductPopup,
     updateThanksMessage,
     updateProduct,
+    addToCart,
     user
   } = useStore();
 
@@ -26,11 +27,15 @@ const ProductPopupModal = () => {
   const [customThanks, setCustomThanks] = useState(defaultThanks);
   const [comment, setComment] = useState('');
   const [comments, setComments] = useState([]);
+  const addCartBtnRef = useRef(null);
 
   useEffect(() => {
     if (popupProduct) {
       setCustomThanks(popupProduct.thanksMessage || defaultThanks);
       setCurrentImage(0);
+      if (addCartBtnRef.current) {
+        addCartBtnRef.current.focus();
+      }
     }
   }, [popupProduct]);
 
@@ -100,6 +105,10 @@ const ProductPopupModal = () => {
     } else if (words.length > MAX_COMMENT_WORDS) {
       alert(`El comentario es muy largo. Máximo permitido: ${MAX_COMMENT_WORDS} palabras.`);
     }
+  };
+
+  const handleAddToCart = () => {
+    addToCart(popupProduct);
   };
 
   // Trunca el texto a N palabras si es necesario
@@ -227,6 +236,16 @@ const ProductPopupModal = () => {
             {discount > 0 && (
               <span className="text-sm text-gray-400 line-through ml-3">S/ {price}</span>
             )}
+          </div>
+
+          <div className="mb-6">
+            <button
+              ref={addCartBtnRef}
+              onClick={handleAddToCart}
+              className="w-full bg-blue-600 hover:bg-blue-800 rounded-full px-4 py-2 font-semibold text-white"
+            >
+              Añadir al carrito
+            </button>
           </div>
 
           {/* Mensaje de agradecimiento */}

@@ -7,6 +7,7 @@ import TagBar from './components/TagBar.jsx';
 import ProductGrid from './components/ProductGrid.jsx';
 import Footer from './components/Footer.jsx';
 import Carousel from './components/Carousel.jsx';
+import { featuredSlides } from './data/products.js';
 
 // Modales
 import AddEditProductModal from './components/modals/AddEditProductModal.jsx';
@@ -48,7 +49,7 @@ function MainApp() {
             <div className="hidden md:block" style={{ width: '36px', minWidth: '36px' }} />
             {/* Carousel */}
             <div className="flex-1 w-full max-w-screen-2xl overflow-hidden">
-              <Carousel />
+              <Carousel slides={featuredSlides} />
             </div>
           </div>
           {/* Grid de productos */}
