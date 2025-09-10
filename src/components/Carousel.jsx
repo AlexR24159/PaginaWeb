@@ -2,19 +2,17 @@ import React, { useState, useRef, useEffect } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay, Navigation, Pagination, A11y } from 'swiper/modules';
 import { useStore } from '../context/StoreContext';
-import CarouselAdminPanel from './CarouselAdminPanel';
 
-const Carousel = ({ slides }) => {
-  const { carouselSlides, user, addToCart, openProductPopup, getProductById } = useStore();
-  const [showAdmin, setShowAdmin] = useState(false);
+const Carousel = () => {
+  const { getCarouselImages, addToCart, openProductPopup, getProductById } = useStore();
   const [toast, setToast] = useState(null);
 
-  const slideItems = slides || carouselSlides;
+  const slides = getCarouselImages();
   const swiperRef = useRef(null);
 
   useEffect(() => {
-    if (swiperRef.current?.swiper) swiperRef.current.swiper.update();
-  }, [slideItems?.length]);
+    swiperRef.current?.swiper?.update();
+  }, [slides.length]);
 
   const openProduct = (productId) => {
     const product = getProductById(productId);
@@ -42,21 +40,12 @@ const Carousel = ({ slides }) => {
 
   return (
     <div className="w-full min-w-0 relative">
-      {/* Botón solo para admin */}
-      {user && user.role === 'admin' && (
-        <button
-          onClick={() => setShowAdmin(true)}
-          className="absolute top-2 right-2 z-40 bg-blue-600 hover:bg-blue-800 text-white text-xs px-3 py-1 rounded shadow-md"
-          style={{ fontWeight: 'bold' }}
-        >
-          Editar imágenes
-        </button>
-      )}
       {/* El Carousel */}
       <Swiper
         ref={swiperRef}
         modules={[Autoplay, Navigation, Pagination, A11y]}
-        loop={true}
+        loop={slides.length > 3}
+        watchOverflow={true}
         navigation
         pagination={{ clickable: true }}
         autoplay={{ delay: 4000, disableOnInteraction: false, pauseOnMouseEnter: false }}
@@ -68,7 +57,7 @@ const Carousel = ({ slides }) => {
         className="rounded-2xl shadow-xl"
         style={{ minWidth: 0 }}
       >
-        {slideItems.map((slide, i) => {
+        {slides.map((slide, i) => {
           const product = slide.productId ? getProductById(slide.productId) : null;
           const title = slide.title || product?.name || `Imagen ${i + 1}`;
           return (
@@ -112,10 +101,6 @@ const Carousel = ({ slides }) => {
         <div className="fixed bottom-4 right-4 bg-green-600 text-white px-4 py-2 rounded shadow-lg z-50">
           {toast}
         </div>
-      )}
-      {/* Modal solo para admin */}
-      {user && user.role === 'admin' && showAdmin && (
-        <CarouselAdminPanel onClose={() => setShowAdmin(false)} />
       )}
     </div>
   );

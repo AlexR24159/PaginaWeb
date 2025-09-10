@@ -33,26 +33,23 @@ export const StoreProvider = ({ children }) => {
   });
   const [editingFooter, setEditingFooter] = useState(false);
 
-  // --------- Carousel editable ---------
-  const [carouselSlides, setCarouselSlides] = useLocalStorage('carouselSlides', [
-    { id: 'slide-1', imageUrl: 'https://images.unsplash.com/photo-1519125323398-675f0ddb6308?auto=format&fit=crop&w=600&q=80', title: '', link: '' },
-    { id: 'slide-2', imageUrl: 'https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?auto=format&fit=crop&w=600&q=80', title: '', link: '' },
-    { id: 'slide-3', imageUrl: 'https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=600&q=80', title: '', link: '' },
-    { id: 'slide-4', imageUrl: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=600&q=80', title: '', link: '' },
-    { id: 'slide-5', imageUrl: 'https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?auto=format&fit=crop&w=600&q=80', title: '', link: '' },
-  ]);
+  // --------- Carousel via productos destacados ---------
+  const DEFAULT_MAX_CAROUSEL = 10;
+  const [carouselImages, setCarouselImages] = useLocalStorage('carouselImages', []);
 
-  const addCarouselSlide = (slide) => {
-    setCarouselSlides([...carouselSlides, { ...slide, id: 'slide-' + Date.now() }]);
+  const addToCarousel = (productId, imageUrl, title = '') => {
+    setCarouselImages((prev) => {
+      if (prev.some((img) => img.productId === productId)) return prev;
+      if (prev.length >= DEFAULT_MAX_CAROUSEL) return prev;
+      return [...prev, { id: `carousel-${Date.now()}`, productId, imageUrl, title }];
+    });
   };
 
-  const editCarouselSlide = (id, updated) => {
-    setCarouselSlides(carouselSlides.map(s => s.id === id ? { ...s, ...updated } : s));
+  const removeFromCarousel = (productId) => {
+    setCarouselImages((prev) => prev.filter((img) => img.productId !== productId));
   };
 
-  const removeCarouselSlide = (id) => {
-    setCarouselSlides(carouselSlides.filter(s => s.id !== id));
-  };
+  const getCarouselImages = () => carouselImages;
   // --------- FIN Carousel editable ---------
 
   // Navigation state
@@ -340,11 +337,11 @@ const [showCartModal, setShowCartModal] = useState(false);
         paymentMethod,
         setPaymentMethod,
 
-        // --- Carousel editable ---
-        carouselSlides,
-        addCarouselSlide,
-        editCarouselSlide,
-        removeCarouselSlide,
+        // --- Carousel destacado ---
+        carouselImages,
+        addToCarousel,
+        removeFromCarousel,
+        getCarouselImages,
 
         // --- NUEVO: Popup producto ---
         popupProduct,
