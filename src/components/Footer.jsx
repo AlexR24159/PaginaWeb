@@ -19,7 +19,7 @@ const Footer = () => {
             </p>
           </div>
           {/* Bloque de links editables */}
-          <FooterLinks isAdmin={true} /> {/* Cambia a false para probar como cliente */}
+          <FooterLinks />
         </div>
       </div>
     </footer>

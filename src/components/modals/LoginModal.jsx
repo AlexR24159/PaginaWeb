@@ -2,24 +2,11 @@ import React, { useState, useRef, useEffect } from 'react';
 import ModalWrapper from './ModalWrapper';
 import { useStore } from '../../context/StoreContext';
 import { useTheme } from '../../context/ThemeContext';
-
-// Claves para localStorage
-const USERS_KEY = 'users_list';
-
-function getUsers() {
-  const stored = localStorage.getItem(USERS_KEY);
-  if (stored) return JSON.parse(stored);
-  // Por defecto, un solo admin (solo si nunca se creó antes)
-  return [{ username: 'alexy', password: 'ghia2025', role: 'admin' }];
-}
-
-function setUsers(users) {
-  localStorage.setItem(USERS_KEY, JSON.stringify(users));
-}
+import { inputClass, labelClass } from '../../utils/formClasses';
 
 const LoginModal = () => {
   const { darkMode } = useTheme();
-  const { showLoginModal, setShowLoginModal, login } = useStore();
+  const { showLoginModal, setShowLoginModal, login, register } = useStore();
 
   const [mode, setMode] = useState('login'); // login o register
   const [username, setUsername] = useState('');
@@ -39,42 +26,25 @@ const LoginModal = () => {
   }, [showLoginModal, mode]);
 
   // LOGIN
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
     setError('');
-
-    const users = getUsers();
-    const user = users.find(u => u.username.toLowerCase() === username.trim().toLowerCase() && u.role === role);
-
-    if (!user || user.password !== password) {
-      setError('Usuario o contraseña incorrectos');
-      return;
+    try {
+      await login(username.trim(), password, role);
+      setShowLoginModal(false);
+      setUsername('');
+      setPassword('');
+      setRole('cliente');
+      setMode('login');
+    } catch (err) {
+      setError(err.message);
     }
-
-    // Login correcto
-    login({
-      name: user.username,
-      email: `${user.username.toLowerCase()}@example.com`,
-      role: user.role
-    });
-    setShowLoginModal(false);
-    setUsername('');
-    setPassword('');
-    setRole('cliente');
-    setMode('login');
   };
 
   // REGISTRO
-  const handleRegister = (e) => {
+  const handleRegister = async (e) => {
     e.preventDefault();
     setError('');
-    const users = getUsers();
-
-    // No se puede repetir usuario
-    if (users.find(u => u.username.toLowerCase() === username.trim().toLowerCase())) {
-      setError('El usuario ya existe');
-      return;
-    }
     if (!username.trim() || !password.trim()) {
       setError('Ingrese usuario y contraseña');
       return;
@@ -83,32 +53,19 @@ const LoginModal = () => {
       setError('La contraseña debe tener al menos 4 caracteres');
       return;
     }
-    // Si nadie es admin, permite crear uno (sólo la primera vez)
-    if (role === 'admin' && users.some(u => u.role === 'admin')) {
-      setError('Ya existe un administrador');
-      return;
+    try {
+      await register(username.trim(), password, role);
+      setShowLoginModal(false);
+      setUsername('');
+      setPassword('');
+      setRole('cliente');
+      setMode('login');
+    } catch (err) {
+      setError(err.message);
     }
-
-    const newUser = { username: username.trim(), password, role };
-    users.push(newUser);
-    setUsers(users);
-
-    // Auto-login después de crear cuenta
-    login({
-      name: newUser.username,
-      email: `${newUser.username.toLowerCase()}@example.com`,
-      role: newUser.role
-    });
-    setShowLoginModal(false);
-    setUsername('');
-    setPassword('');
-    setRole('cliente');
-    setMode('login');
   };
 
-  const inputClass = `w-full rounded-lg border p-2 focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-    darkMode ? 'bg-gray-700 border-gray-600 text-white' : 'bg-white border-gray-300 text-gray-800'
-  }`;
+  const inputCls = inputClass(darkMode);
 
   return (
     <ModalWrapper
@@ -124,28 +81,28 @@ const LoginModal = () => {
           )}
 
           <div>
-            <label htmlFor="username" className={`block mb-1 font-medium ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>Usuario</label>
+            <label htmlFor="username" className={labelClass(darkMode)}>Usuario</label>
             <input
               ref={usernameInputRef}
               id="username"
               type="text"
               value={username}
               onChange={e => setUsername(e.target.value)}
-              className={inputClass}
+              className={inputCls}
               placeholder="Ingrese su usuario"
               autoComplete="username"
             />
           </div>
 
           <div>
-            <label htmlFor="password" className={`block mb-1 font-medium ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>Contraseña</label>
+            <label htmlFor="password" className={labelClass(darkMode)}>Contraseña</label>
             <div className="relative">
               <input
                 id="password"
                 type={showPassword ? 'text' : 'password'}
                 value={password}
                 onChange={e => setPassword(e.target.value)}
-                className={inputClass + ' pr-10'}
+                className={inputCls + ' pr-10'}
                 placeholder="Ingrese su contraseña"
                 autoComplete="current-password"
               />
@@ -177,12 +134,12 @@ const LoginModal = () => {
           </div>
 
           <div>
-            <label htmlFor="role" className={`block mb-1 font-medium ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>Rol de Usuario</label>
+            <label htmlFor="role" className={labelClass(darkMode)}>Rol de Usuario</label>
             <select
               id="role"
               value={role}
               onChange={e => setRole(e.target.value)}
-              className={inputClass}
+              className={inputCls}
             >
               <option value="cliente">Cliente</option>
               <option value="admin">Administrador</option>
@@ -212,38 +169,38 @@ const LoginModal = () => {
           )}
 
           <div>
-            <label htmlFor="new-username" className={`block mb-1 font-medium ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>Nuevo usuario</label>
+            <label htmlFor="new-username" className={labelClass(darkMode)}>Nuevo usuario</label>
             <input
               id="new-username"
               type="text"
               value={username}
               onChange={e => setUsername(e.target.value)}
-              className={inputClass}
+                className={inputCls}
               placeholder="Crea tu usuario"
               autoComplete="username"
             />
           </div>
 
           <div>
-            <label htmlFor="new-password" className={`block mb-1 font-medium ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>Nueva contraseña</label>
+            <label htmlFor="new-password" className={labelClass(darkMode)}>Nueva contraseña</label>
             <input
               id="new-password"
               type="password"
               value={password}
               onChange={e => setPassword(e.target.value)}
-              className={inputClass}
+                className={inputCls}
               placeholder="Crea tu contraseña"
               autoComplete="new-password"
             />
           </div>
 
           <div>
-            <label htmlFor="new-role" className={`block mb-1 font-medium ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>Rol de Usuario</label>
+            <label htmlFor="new-role" className={labelClass(darkMode)}>Rol de Usuario</label>
             <select
               id="new-role"
               value={role}
               onChange={e => setRole(e.target.value)}
-              className={inputClass}
+                className={inputCls}
             >
               <option value="cliente">Cliente</option>
               <option value="admin">Administrador</option>

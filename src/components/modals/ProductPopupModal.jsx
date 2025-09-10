@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useStore } from '../../context/StoreContext';
 import { COLORS } from '../../utils/constants';
 import RatingStars from "../RatingStars"; // ¡Importa aquí tu componente!
@@ -18,8 +18,21 @@ const ProductPopupModal = () => {
     closeProductPopup,
     updateThanksMessage,
     updateProduct,
-    user // <--- agregamos user para seguridad
+    user
   } = useStore();
+
+  const [currentImage, setCurrentImage] = useState(0);
+  const [isEditingThanks, setIsEditingThanks] = useState(false);
+  const [customThanks, setCustomThanks] = useState(defaultThanks);
+  const [comment, setComment] = useState('');
+  const [comments, setComments] = useState([]);
+
+  useEffect(() => {
+    if (popupProduct) {
+      setCustomThanks(popupProduct.thanksMessage || defaultThanks);
+      setCurrentImage(0);
+    }
+  }, [popupProduct]);
 
   if (!popupProduct) return null;
 
@@ -44,12 +57,6 @@ const ProductPopupModal = () => {
 
   const finalPrice = discount ? (price * (1 - discount)) : price;
 
-  const [currentImage, setCurrentImage] = useState(0);
-  const [isEditingThanks, setIsEditingThanks] = useState(false);
-  const [customThanks, setCustomThanks] = useState(thanksMessage || defaultThanks);
-  const [comment, setComment] = useState('');
-  const [comments, setComments] = useState([]);
-
   // Cálculo de promedio seguro
   const ratingsArray = Array.isArray(ratings) ? ratings : [];
   const promedio = ratingsArray.length > 0
@@ -63,16 +70,16 @@ const ProductPopupModal = () => {
   };
 
   // Scrollable modal + sticky close
-  const handleThanksEdit = () => setIsEditingThanks(true);
+  const handleEditThanks = () => setIsEditingThanks(true);
 
-  const handleThanksAccept = () => {
+  const handleAcceptThanks = () => {
     if (updateThanksMessage) {
       updateThanksMessage(popupProduct.id, customThanks);
     }
     setIsEditingThanks(false);
   };
 
-  const handleThanksCancel = () => {
+  const handleCancelThanks = () => {
     setCustomThanks(thanksMessage || defaultThanks);
     setIsEditingThanks(false);
   };
@@ -228,7 +235,7 @@ const ProductPopupModal = () => {
               <span className="font-semibold mr-2">Mensaje de agradecimiento:</span>
               {!isEditingThanks && user && user.role === 'admin' && (
                 <button
-                  onClick={handleThanksEdit}
+                  onClick={handleEditThanks}
                   className="text-blue-300 hover:text-blue-500 text-xs underline"
                 >
                   Editar
@@ -247,13 +254,13 @@ const ProductPopupModal = () => {
                 <div className="flex justify-end gap-2 mt-1">
                   <button
                     className="bg-blue-600 hover:bg-blue-800 rounded px-4 py-1 text-white text-sm"
-                    onClick={handleThanksAccept}
+                    onClick={handleAcceptThanks}
                   >
                     Aceptar
                   </button>
                   <button
                     className="bg-gray-700 hover:bg-gray-800 rounded px-4 py-1 text-gray-200 text-sm"
-                    onClick={handleThanksCancel}
+                    onClick={handleCancelThanks}
                   >
                     Cancelar
                   </button>

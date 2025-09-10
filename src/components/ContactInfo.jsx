@@ -1,33 +1,22 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef } from "react";
 import { FaWhatsapp, FaEdit } from "react-icons/fa";
-import { useStore } from '../context/StoreContext'; // Agrega esto
+import { useStore } from '../context/StoreContext';
+import useOutsideClick from '../hooks/useOutsideClick';
 
 export default function ContactPopover() {
-  const { user } = useStore(); // Trae el user del contexto
+  const { user } = useStore();
   const isAdmin = user && user.role === "admin";
 
-  // Número guardado en estado (puedes traerlo de contexto o localStorage)
   const [whatsappNumber, setWhatsappNumber] = useState("999999999");
   const [editing, setEditing] = useState(false);
   const [tempNumber, setTempNumber] = useState(whatsappNumber);
 
   const [open, setOpen] = useState(false);
-  const btnRef = useRef();
-
-  useEffect(() => {
-    function handleClick(e) {
-      if (
-        btnRef.current &&
-        !btnRef.current.contains(e.target) &&
-        !document.getElementById("popover-content")?.contains(e.target)
-      ) {
-        setOpen(false);
-        setEditing(false);
-      }
-    }
-    if (open) document.addEventListener("mousedown", handleClick);
-    return () => document.removeEventListener("mousedown", handleClick);
-  }, [open]);
+  const containerRef = useRef(null);
+  useOutsideClick(containerRef, () => {
+    setOpen(false);
+    setEditing(false);
+  });
 
   const handleSave = () => {
     setWhatsappNumber(tempNumber.replace(/\D/g, ""));
@@ -35,10 +24,9 @@ export default function ContactPopover() {
   };
 
   return (
-    <div className="relative flex items-center">
+    <div ref={containerRef} className="relative flex items-center">
       {/* Botón de WhatsApp */}
       <button
-        ref={btnRef}
         onClick={() => setOpen(o => !o)}
         className="
           flex items-center justify-center

@@ -1,17 +1,8 @@
 import React, { useState } from 'react';
-
-const USERS_KEY = 'users_list';
-
-function getUsers() {
-  const stored = localStorage.getItem(USERS_KEY);
-  if (stored) return JSON.parse(stored);
-  return [];
-}
-function setUsers(users) {
-  localStorage.setItem(USERS_KEY, JSON.stringify(users));
-}
+import { useStore } from '../../context/StoreContext';
 
 const ChangePasswordModal = ({ isOpen, onClose, user }) => {
+  const { updatePassword } = useStore();
   const [oldPass, setOldPass] = useState('');
   const [newPass, setNewPass] = useState('');
   const [confirmPass, setConfirmPass] = useState('');
@@ -36,25 +27,17 @@ const ChangePasswordModal = ({ isOpen, onClose, user }) => {
       setError('Las contraseñas no coinciden.');
       return;
     }
-    const users = getUsers();
-    const idx = users.findIndex(
-      u => u.username.toLowerCase() === user.name.toLowerCase() && u.role === user.role
-    );
-    if (idx === -1) {
-      setError('Usuario no encontrado.');
-      return;
-    }
-    if (users[idx].password !== oldPass) {
-      setError('La contraseña actual es incorrecta.');
-      return;
-    }
-    users[idx].password = newPass;
-    setUsers(users);
-    setSuccess('¡Contraseña cambiada exitosamente!');
-    setOldPass('');
-    setNewPass('');
-    setConfirmPass('');
-    setTimeout(onClose, 1500); // Cierra tras un pequeño delay
+    updatePassword(user.name, user.role, oldPass, newPass)
+      .then(() => {
+        setSuccess('¡Contraseña cambiada exitosamente!');
+        setOldPass('');
+        setNewPass('');
+        setConfirmPass('');
+        setTimeout(onClose, 1500);
+      })
+      .catch((err) => {
+        setError(err.message);
+      });
   };
 
   return (

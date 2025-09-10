@@ -3,6 +3,7 @@ import React, { createContext, useState, useContext, useEffect } from 'react';
 import { sampleProducts } from '../data/products';
 import useLocalStorage from '../hooks/useLocalStorage';
 import { filterProducts } from '../utils/helpers';
+import useAuth from '../hooks/useAuth';
 
 const StoreContext = createContext();
 
@@ -59,7 +60,7 @@ export const StoreProvider = ({ children }) => {
   const [activeTag, setActiveTag] = useLocalStorage('activeTag', null);
 
   // User state
-  const [user, setUser] = useLocalStorage('user', null);
+  const { user, login, logout, register, updatePassword } = useAuth();
   const [showLoginModal, setShowLoginModal] = useState(false);
 
   // Search and filters
@@ -77,12 +78,8 @@ export const StoreProvider = ({ children }) => {
   const [filteredProducts, setFilteredProducts] = useState([]);
 
 // Wishlist y Cart
-const [wishlist, setWishlist] = user
-  ? useLocalStorage('wishlist', [])
-  : useState([]);
-const [cart, setCart] = user
-  ? useLocalStorage('cart', [])
-  : useState([]);
+const [wishlist, setWishlist] = useLocalStorage('wishlist', []);
+const [cart, setCart] = useLocalStorage('cart', []);
 
 // Modales de Wishlist y Cart
 const [showWishlistModal, setShowWishlistModal] = useState(false);
@@ -136,14 +133,6 @@ const [showCartModal, setShowCartModal] = useState(false);
   }, [products, searchQuery, activeTag, activeNavLink, filters]);
 
   // User authentication functions
-  const login = (userData) => {
-    setUser(userData);
-  };
-
-  const logout = () => {
-    setUser(null);
-  };
-
   // Products management functions
   const addProduct = (product) => {
     setProducts([...products, product]);
@@ -298,6 +287,8 @@ const [showCartModal, setShowCartModal] = useState(false);
         user,
         login,
         logout,
+        register,
+        updatePassword,
         showLoginModal,
         setShowLoginModal,
 
