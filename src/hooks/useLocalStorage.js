@@ -2,40 +2,32 @@
 import { useState, useEffect } from 'react';
 
 const useLocalStorage = (key, initialValue) => {
-  // State to store our value
-  // Pass initial state function to useState so logic is only executed once
+  const isBrowser = typeof window !== 'undefined';
+
   const [storedValue, setStoredValue] = useState(() => {
+    if (!isBrowser) return initialValue;
     try {
-      // Get from local storage by key
       const item = window.localStorage.getItem(key);
-      // Parse stored json or if none return initialValue
       return item ? JSON.parse(item) : initialValue;
     } catch (error) {
-      // If error also return initialValue
       console.log(error);
       return initialValue;
     }
   });
 
-  // Return a wrapped version of useState's setter function that ...
-  // ... persists the new value to localStorage.
   const setValue = (value) => {
+    if (!isBrowser) return;
     try {
-      // Allow value to be a function so we have same API as useState
-      const valueToStore =
-        value instanceof Function ? value(storedValue) : value;
-      // Save state
+      const valueToStore = value instanceof Function ? value(storedValue) : value;
       setStoredValue(valueToStore);
-      // Save to local storage
       window.localStorage.setItem(key, JSON.stringify(valueToStore));
     } catch (error) {
-      // A more advanced implementation would handle the error case
       console.log(error);
     }
   };
 
-  // Subscribe to changes in other tabs/windows
   useEffect(() => {
+    if (!isBrowser) return;
     const handleStorageChange = (e) => {
       if (e.key === key && e.newValue !== e.oldValue) {
         try {
@@ -48,7 +40,7 @@ const useLocalStorage = (key, initialValue) => {
 
     window.addEventListener('storage', handleStorageChange);
     return () => window.removeEventListener('storage', handleStorageChange);
-  }, [key, initialValue]);
+  }, [key, initialValue, isBrowser]);
 
   return [storedValue, setValue];
 };

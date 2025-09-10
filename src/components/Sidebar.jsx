@@ -9,40 +9,9 @@ import {
   BRANDS,
   PRICE_RANGES,
 } from '../utils/constants';
-
-/* Helpers UI */
-const Checkbox = ({ label, checked, onChange, dark }) => (
-  <label
-    className={`flex items-center gap-2 py-1 cursor-pointer ${
-      dark ? 'text-gray-300 hover:text-white' : 'text-gray-700 hover:text-gray-900'
-    }`}
-  >
-    <input
-      type="checkbox"
-      checked={checked}
-      onChange={onChange}
-      className="h-4 w-4 text-blue-600 rounded"
-    />
-    {label}
-  </label>
-);
-
-const Radio = ({ label, checked, onChange, dark }) => (
-  <label
-    className={`flex items-center gap-2 py-1 cursor-pointer ${
-      dark ? 'text-gray-300 hover:text-white' : 'text-gray-700 hover:text-gray-900'
-    }`}
-  >
-    <input
-      type="radio"
-      checked={checked}
-      onChange={onChange}
-      className="h-4 w-4 text-blue-600"
-    />
-    {label}
-  </label>
-);
-
+import Checkbox from './common/Checkbox';
+import Radio from './common/Radio';
+import Accordion from './common/Accordion';
 const ColorOption = ({ name, hex, checked, onChange }) => (
   <label className="flex items-center gap-2 py-1 cursor-pointer">
     <input type="checkbox" checked={checked} onChange={onChange} className="hidden" />
@@ -54,30 +23,6 @@ const ColorOption = ({ name, hex, checked, onChange }) => (
     />
     <span className={`text-sm ${checked ? 'font-medium' : ''}`}>{name}</span>
   </label>
-);
-
-const Accordion = ({ title, open, toggle, children, dark }) => (
-  <div className="border-b border-gray-700 last:border-none">
-    <button
-      onClick={toggle}
-      className={`w-full flex justify-between items-center py-3 px-4 text-left ${
-        dark ? 'hover:bg-gray-800 text-white' : 'hover:bg-gray-100 text-gray-900'
-      } transition-colors`}
-    >
-      <span className="font-medium">{title}</span>
-      <svg
-        className={`w-5 h-5 transform transition-transform ${open ? 'rotate-180' : ''}`}
-        fill="none"
-        stroke="currentColor"
-        viewBox="0 0 24 24"
-      >
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
-      </svg>
-    </button>
-    <div className={`px-4 ${open ? 'max-h-96' : 'max-h-0'} overflow-hidden transition-all`}>
-      {children}
-    </div>
-  </div>
 );
 
 export default function Sidebar() {
@@ -92,7 +37,7 @@ export default function Sidebar() {
     priceRange: 'Todo',
   };
 
-  const [openDrawer, setOpenDrawer] = useState(false);
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [draft, setDraft] = useState(filters);
 
   useEffect(() => setDraft(filters), [filters]);
@@ -136,7 +81,7 @@ export default function Sidebar() {
 
   const apply = () => {
     setFilters(draft);
-    setOpenDrawer(false);
+    setIsDrawerOpen(false);
   };
 
   const clear = () => {
@@ -145,11 +90,11 @@ export default function Sidebar() {
   };
 
   const Drawer = () =>
-    openDrawer && (
+    isDrawerOpen && (
       <>
         <div
           className="fixed inset-0 bg-black bg-opacity-80 z-40"
-          onClick={() => setOpenDrawer(false)}
+          onClick={() => setIsDrawerOpen(false)}
         />
         <aside
           className="fixed left-0 top-40 w-60 h-1/2 bg-gray-900 text-white flex flex-col z-50"
@@ -157,7 +102,7 @@ export default function Sidebar() {
         >
           <div className="flex items-center justify-between px-4 py-3 border-b border-gray-700">
             <h2 className="text-lg font-semibold">Filtros</h2>
-            <button onClick={() => setOpenDrawer(false)} aria-label="Cerrar">
+            <button onClick={() => setIsDrawerOpen(false)} aria-label="Cerrar">
               <FiX size={22} />
             </button>
           </div>
@@ -288,7 +233,7 @@ export default function Sidebar() {
         className={`fixed left-0 z-50 flex items-center gap-2 px-4 py-3 cursor-pointer rounded-tr-md rounded-br-md ${
           darkMode ? 'bg-gray-900 text-white' : 'bg-white text-gray-800'
         } border-r border-gray-700`}
-        onClick={() => setOpenDrawer(true)}
+        onClick={() => setIsDrawerOpen(true)}
         aria-label="Abrir filtros"
         style={{ top: '250px' }}
       >

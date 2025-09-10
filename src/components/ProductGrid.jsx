@@ -25,7 +25,7 @@ const ProductGrid = () => {
           Productos {filteredProducts.length > 0 ? `(${filteredProducts.length})` : ''}
         </h2>
         <div className="flex items-center gap-4">
-          <ContactInfo isAdmin={true} />
+          <ContactInfo />
           {/* ----------- Solo Admin puede ver este botón ----------- */}
           {user && user.role === 'admin' && (
             <button

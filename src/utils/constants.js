@@ -7,20 +7,7 @@ export const NAVIGATION_LINKS = [
   'Niños',
 ];
 
-// Product category tags
-export const TAGS = [
-  'Ropa',
-  'Zapatos',
-  'Accesorios',
-  'Bolsos',
-  'Joyería',
-  'Electrónica',
-  'Deporte',
-  'Hogar',
-  'Otra',
-];
-
-// Product categories
+// Product categories (also used as tags)
 export const CATEGORIES = [
   'Ropa',
   'Zapatos',
@@ -32,6 +19,9 @@ export const CATEGORIES = [
   'Hogar',
   'Otra',
 ];
+
+// Product category tags share the same values as categories
+export const TAGS = CATEGORIES;
 
 // Product sizes
 export const SIZES = [

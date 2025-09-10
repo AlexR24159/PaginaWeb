@@ -1,8 +1,9 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef } from 'react';
 import { useStore } from '../context/StoreContext';
 import { useTheme } from '../context/ThemeContext';
 import { NAVIGATION_LINKS } from '../utils/constants';
 import ChangePasswordModal from './modals/ChangePasswordModal'; // <--- Importa aquí
+import useOutsideClick from '../hooks/useOutsideClick';
 
 // Detecta imágenes por URL (no cambies)
 const isImageUrl = (str) =>
@@ -43,19 +44,7 @@ const Header = () => {
   const [showUserMenu, setShowUserMenu] = useState(false);
   const [showChangePassModal, setShowChangePassModal] = useState(false);
   const userMenuRef = useRef(null);
-
-  useEffect(() => {
-    function handleClick(e) {
-      if (
-        userMenuRef.current &&
-        !userMenuRef.current.contains(e.target)
-      ) {
-        setShowUserMenu(false);
-      }
-    }
-    if (showUserMenu) document.addEventListener('mousedown', handleClick);
-    return () => document.removeEventListener('mousedown', handleClick);
-  }, [showUserMenu]);
+  useOutsideClick(userMenuRef, () => setShowUserMenu(false));
 
   // ---- Métodos de edición (igual que siempre)
   const startEditingName = () => { if (!isAdmin) return; setIsEditingName(true); setTimeout(() => nameInputRef.current?.focus(), 10); };

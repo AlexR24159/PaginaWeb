@@ -4,28 +4,24 @@ import ModalWrapper from './ModalWrapper';
 import { useStore } from '../../context/StoreContext';
 import { useTheme } from '../../context/ThemeContext';
 import { CATEGORIES, SIZES, COLORS, BRANDS, PRODUCT_TARGETS } from '../../utils/constants';
+import { inputClass, labelClass } from '../../utils/formClasses';
 
 const AddEditProductModal = () => {
   const { darkMode } = useTheme();
-  const { 
-    showAddEditModal, 
-    setShowAddEditModal, 
-    editingProduct, 
-    addProduct, 
+  const {
+    showAddEditModal,
+    setShowAddEditModal,
+    editingProduct,
+    addProduct,
     updateProduct,
     user
   } = useStore();
-
-  // --- PROTECCIÓN DE ADMIN: si no es admin, NO ve el modal ni puede editar/añadir
-  if (!user || user.role !== 'admin') return null;
-
+  const isAdmin = user && user.role === 'admin';
   const isEditing = !!editingProduct;
-  const inputClass = `w-full rounded-lg border p-2 focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-    darkMode ? 'bg-gray-700 border-gray-600 text-white' : 'bg-white border-gray-300 text-gray-800'
-  }`;
-  const labelClass = `block mb-1 font-medium ${darkMode ? 'text-gray-300' : 'text-gray-700'}`;
 
-  // MULTI-IMAGENES:
+  const inputCls = inputClass(darkMode);
+  const labelCls = labelClass(darkMode);
+
   const [imageInput, setImageInput] = useState('');
   const [imageUrls, setImageUrls] = useState([]);
 
@@ -48,6 +44,7 @@ const AddEditProductModal = () => {
 
   // Si está editando, inicializa campos
   useEffect(() => {
+    if (!isAdmin) return;
     if (editingProduct) {
       setFormData({
         id: editingProduct.id || '',
@@ -90,7 +87,7 @@ const AddEditProductModal = () => {
       setImageUrls([]);
     }
     setImageInput('');
-  }, [editingProduct, showAddEditModal]);
+  }, [editingProduct, showAddEditModal, isAdmin]);
 
   useEffect(() => {
     if (showAddEditModal && nameInputRef.current) {
@@ -177,8 +174,10 @@ const AddEditProductModal = () => {
   const discount = parseFloat(formData.discount) || 0;
   const finalPrice = price - (price * discount / 100);
 
+  if (!isAdmin) return null;
+
   return (
-    <ModalWrapper 
+    <ModalWrapper
       isOpen={showAddEditModal} 
       onClose={() => setShowAddEditModal(false)} 
       title={isEditing ? 'Editar Producto' : 'Añadir Nuevo Producto'}
@@ -186,7 +185,7 @@ const AddEditProductModal = () => {
       <form onSubmit={handleSubmit} className="flex flex-col h-full max-h-[80vh]">
         <div className="flex-1 min-h-0 overflow-y-auto space-y-4 pr-2">
           <div>
-            <label htmlFor="name" className={labelClass}>Nombre*</label>
+            <label htmlFor="name" className={labelCls}>Nombre*</label>
             <input
               ref={nameInputRef}
               type="text"
@@ -194,14 +193,14 @@ const AddEditProductModal = () => {
               name="name"
               value={formData.name}
               onChange={handleChange}
-              className={inputClass}
+              className={inputCls}
               required
             />
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <label htmlFor="price" className={labelClass}>Precio*</label>
+              <label htmlFor="price" className={labelCls}>Precio*</label>
               <input
                 type="number"
                 id="price"
@@ -210,12 +209,12 @@ const AddEditProductModal = () => {
                 onChange={handleChange}
                 min="0.01"
                 step="0.01"
-                className={inputClass}
+                className={inputCls}
                 required
               />
             </div>
             <div>
-              <label htmlFor="discount" className={labelClass}>Descuento (%)</label>
+              <label htmlFor="discount" className={labelCls}>Descuento (%)</label>
               <input
                 type="number"
                 id="discount"
@@ -225,7 +224,7 @@ const AddEditProductModal = () => {
                 min="0"
                 max="100"
                 step="1"
-                className={inputClass}
+                className={inputCls}
               />
             </div>
           </div>
@@ -245,11 +244,11 @@ const AddEditProductModal = () => {
           </div>
 
           <div>
-            <label className={labelClass}>URL(s) de Imagen*</label>
+            <label className={labelCls}>URL(s) de Imagen*</label>
             <div className="flex gap-2">
               <input
                 type="url"
-                className={inputClass + " flex-1"}
+                className={inputCls + " flex-1"}
                 value={imageInput}
                 onChange={e => setImageInput(e.target.value)}
                 placeholder="Pega la URL y haz click en +"
@@ -281,26 +280,26 @@ const AddEditProductModal = () => {
           </div>
 
           <div>
-            <label htmlFor="description" className={labelClass}>Descripción</label>
+            <label htmlFor="description" className={labelCls}>Descripción</label>
             <textarea
               id="description"
               name="description"
               value={formData.description}
               onChange={handleChange}
               rows="3"
-              className={inputClass}
+              className={inputCls}
             />
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <label htmlFor="category" className={labelClass}>Categoría*</label>
+              <label htmlFor="category" className={labelCls}>Categoría*</label>
               <select
                 id="category"
                 name="category"
                 value={formData.category}
                 onChange={handleChange}
-                className={inputClass}
+                className={inputCls}
                 required
               >
                 <option value="">Seleccionar categoría</option>
@@ -312,13 +311,13 @@ const AddEditProductModal = () => {
               </select>
             </div>
             <div>
-              <label htmlFor="brand" className={labelClass}>Marca</label>
+              <label htmlFor="brand" className={labelCls}>Marca</label>
               <select
                 id="brand"
                 name="brand"
                 value={formData.brand}
                 onChange={handleChange}
-                className={inputClass}
+                className={inputCls}
               >
                 <option value="">Seleccionar marca</option>
                 {BRANDS.map(brand => (
@@ -331,13 +330,13 @@ const AddEditProductModal = () => {
           </div>
 
           <div>
-            <label htmlFor="target" className={labelClass}>Público objetivo</label>
+            <label htmlFor="target" className={labelCls}>Público objetivo</label>
             <select
               id="target"
               name="target"
               value={formData.target}
               onChange={handleChange}
-              className={inputClass}
+              className={inputCls}
             >
               <option value="">Seleccionar público objetivo</option>
               {PRODUCT_TARGETS.map(target => (
@@ -349,7 +348,7 @@ const AddEditProductModal = () => {
           </div>
 
           <div>
-            <label className={labelClass}>Tallas disponibles</label>
+            <label className={labelCls}>Tallas disponibles</label>
             <div className="flex flex-wrap gap-2">
               {SIZES.map(size => (
                 <button
@@ -371,7 +370,7 @@ const AddEditProductModal = () => {
           </div>
 
           <div>
-            <label className={labelClass}>Colores disponibles</label>
+            <label className={labelCls}>Colores disponibles</label>
             <div className="flex flex-wrap gap-3">
               {COLORS.map(({ name, hex }) => (
                 <button
