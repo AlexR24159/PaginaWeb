@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { Navigation, Pagination, Autoplay } from 'swiper/modules';
+import { Autoplay, Navigation, Pagination, A11y } from 'swiper/modules';
 import { useStore } from '../context/StoreContext';
 import CarouselAdminPanel from './CarouselAdminPanel';
 
@@ -10,6 +10,11 @@ const Carousel = ({ slides }) => {
   const [toast, setToast] = useState(null);
 
   const slideItems = slides || carouselSlides;
+  const swiperRef = useRef(null);
+
+  useEffect(() => {
+    if (swiperRef.current?.swiper) swiperRef.current.swiper.update();
+  }, [slideItems?.length]);
 
   const openProduct = (productId) => {
     const product = getProductById(productId);
@@ -49,16 +54,16 @@ const Carousel = ({ slides }) => {
       )}
       {/* El Carousel */}
       <Swiper
-        modules={[Navigation, Pagination, Autoplay]}
+        ref={swiperRef}
+        modules={[Autoplay, Navigation, Pagination, A11y]}
+        loop={true}
         navigation
         pagination={{ clickable: true }}
-        autoplay={{ delay: 5000, disableOnInteraction: false }}
-        loop
-        spaceBetween={20}
+        autoplay={{ delay: 4000, disableOnInteraction: false, pauseOnMouseEnter: false }}
         breakpoints={{
-          0:    { slidesPerView: 1 },
-          640:  { slidesPerView: 2 },
-          1024: { slidesPerView: 3 },
+          0: { slidesPerView: 1, spaceBetween: 12 },
+          768: { slidesPerView: 2, spaceBetween: 16 },
+          1024: { slidesPerView: 3, spaceBetween: 20 },
         }}
         className="rounded-2xl shadow-xl"
         style={{ minWidth: 0 }}
