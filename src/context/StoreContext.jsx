@@ -77,6 +77,8 @@ export const StoreProvider = ({ children }) => {
   const [products, setProducts] = useLocalStorage('products', sampleProducts);
   const [filteredProducts, setFilteredProducts] = useState([]);
 
+  const getProductById = (id) => products.find(p => p.id === id);
+
 // Wishlist y Cart
 const [wishlist, setWishlist] = useLocalStorage('wishlist', []);
 const [cart, setCart] = useLocalStorage('cart', []);
@@ -302,6 +304,7 @@ const [showCartModal, setShowCartModal] = useState(false);
         products,
         setProducts,
         filteredProducts,
+        getProductById,
         addProduct,
         updateProduct,
         deleteProduct,
