@@ -14,7 +14,10 @@ const AddEditProductModal = () => {
     editingProduct,
     addProduct,
     updateProduct,
-    user
+    user,
+    addToCarousel,
+    removeFromCarousel,
+    getCarouselImages
   } = useStore();
   const isAdmin = user && user.role === 'admin';
   const isEditing = !!editingProduct;
@@ -24,6 +27,7 @@ const AddEditProductModal = () => {
 
   const [imageInput, setImageInput] = useState('');
   const [imageUrls, setImageUrls] = useState([]);
+  const [isFeatured, setIsFeatured] = useState(false);
 
   const [formData, setFormData] = useState({
     id: '',
@@ -69,6 +73,7 @@ const AddEditProductModal = () => {
       } else {
         setImageUrls([]);
       }
+      setIsFeatured(getCarouselImages().some(img => img.productId === editingProduct.id));
     } else {
       setFormData({
         id: '',
@@ -85,6 +90,7 @@ const AddEditProductModal = () => {
         ratings: [],
       });
       setImageUrls([]);
+      setIsFeatured(false);
     }
     setImageInput('');
   }, [editingProduct, showAddEditModal, isAdmin]);
@@ -164,6 +170,13 @@ const AddEditProductModal = () => {
       updateProduct(productData);
     } else {
       addProduct(productData);
+    }
+
+    if (isFeatured) {
+      const image = productData.images && productData.images.length > 0 ? productData.images[0] : productData.imageUrl;
+      addToCarousel(productData.id, image, productData.name);
+    } else {
+      removeFromCarousel(productData.id);
     }
 
     setShowAddEditModal(false);
@@ -378,7 +391,7 @@ const AddEditProductModal = () => {
                   type="button"
                   onClick={() => handleColorToggle(name)}
                   className={`flex items-center gap-1 p-1 rounded-full ${
-                    formData.colors.includes(name) 
+                    formData.colors.includes(name)
                       ? 'ring-2 ring-blue-500 ring-offset-1'
                       : ''
                   }`}
@@ -390,6 +403,16 @@ const AddEditProductModal = () => {
                 </button>
               ))}
             </div>
+          </div>
+          <div className="flex items-center">
+            <input
+              type="checkbox"
+              id="featured"
+              checked={isFeatured}
+              onChange={(e) => setIsFeatured(e.target.checked)}
+              className="mr-2"
+            />
+            <label htmlFor="featured" className={labelCls}>Destacar en carrusel</label>
           </div>
         </div>
 

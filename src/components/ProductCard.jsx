@@ -19,9 +19,13 @@ const ProductCard = ({ product }) => {
     openProductPopup,
     updateProduct,
     user, // <-- AGREGA user AQUÍ
+    addToCarousel,
+    removeFromCarousel,
+    getCarouselImages,
   } = useStore();
 
   const [showMenu, setShowMenu] = useState(false);
+  const [toast, setToast] = useState(null);
   const menuRef = useRef(null);
 
   const ratings = Array.isArray(product.ratings) ? product.ratings : [];
@@ -74,6 +78,24 @@ const ProductCard = ({ product }) => {
     setShowMenu(false);
   };
 
+  const isInCarousel = getCarouselImages().some(img => img.productId === product.id);
+
+  const handleToggleCarousel = (e) => {
+    e.stopPropagation();
+    const image = (product.images && product.images.length > 0)
+      ? product.images[0]
+      : product.imageUrl;
+    if (isInCarousel) {
+      removeFromCarousel(product.id);
+      setToast('Producto quitado del carrusel');
+    } else {
+      addToCarousel(product.id, image, product.name);
+      setToast('Producto añadido al carrusel');
+    }
+    setShowMenu(false);
+    setTimeout(() => setToast(null), 2000);
+  };
+
   React.useEffect(() => {
     if (showMenu) {
       document.addEventListener('mousedown', handleClickOutside);
@@ -84,7 +106,6 @@ const ProductCard = ({ product }) => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, [showMenu]);
-
   const inWishlist = isInWishlist(product.id);
   const discountPercentage = product.discount > 0
     ? Math.round(product.discount * 100)
@@ -99,6 +120,7 @@ const ProductCard = ({ product }) => {
   };
 
   return (
+    <>
     <div
       className={`relative rounded-xl overflow-hidden transition-all duration-300 cursor-pointer ${
         darkMode
@@ -146,6 +168,27 @@ const ProductCard = ({ product }) => {
               {/* SOLO para ADMIN */}
               {user && user.role === 'admin' && (
                 <>
+                  <button
+                    onClick={handleToggleCarousel}
+                    className={`flex w-full items-center px-4 py-2 text-sm ${
+                      darkMode
+                        ? 'text-gray-200 hover:bg-gray-600'
+                        : 'text-gray-700 hover:bg-gray-100'
+                    }`}
+                    role="menuitem"
+                    aria-label={isInCarousel ? 'Quitar del carrusel' : 'Añadir al carrusel'}
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="h-4 w-4 mr-2"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={isInCarousel ? 'M18 6L6 18M6 6l12 12' : 'M12 4v16m8-8H4'} />
+                    </svg>
+                    {isInCarousel ? 'Quitar del carrusel' : 'Añadir al carrusel'}
+                  </button>
                   <button
                     onClick={handleEdit}
                     className={`flex w-full items-center px-4 py-2 text-sm ${
@@ -306,6 +349,12 @@ const ProductCard = ({ product }) => {
         </button>
       </div>
     </div>
+    {toast && (
+      <div className="fixed bottom-4 right-4 bg-green-600 text-white px-4 py-2 rounded shadow-lg z-50">
+        {toast}
+      </div>
+    )}
+    </>
   );
 };
 

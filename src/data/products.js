@@ -112,9 +112,3 @@ export const sampleProducts = [
     ratings: [4, 4, 4, 4],
   }
 ];
-
-export const featuredSlides = [
-  { imageUrl: 'https://images.unsplash.com/photo-1519125323398-675f0ddb6308?auto=format&fit=crop&w=600&q=80', productId: '1', title: 'Destacado 1' },
-  { imageUrl: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=1099&q=80', productId: '4', title: 'Destacado 2' },
-  { imageUrl: 'https://images.unsplash.com/photo-1596755094514-f87e34085b2c?auto=format&fit=crop&w=776&q=80', productId: '7', title: 'Destacado 3' },
-];
