@@ -28,6 +28,36 @@ const RatingStars = ({
     setHoverValue(null);
   };
 
+  const handleKeyDown = (event, starValue) => {
+    if (!editable) return;
+    const focusStar = (targetValue) => {
+      const container = event.currentTarget.parentElement;
+      if (!container) return;
+      const focusables = container.querySelectorAll('[role="button"]');
+      const target = focusables[targetValue - 1];
+      if (target instanceof HTMLElement) {
+        target.focus();
+      }
+    };
+    if (event.key === 'Enter' || event.key === ' ') {
+      event.preventDefault();
+      handleClick(starValue);
+      focusStar(starValue);
+    }
+    if (event.key === 'ArrowRight' || event.key === 'ArrowUp') {
+      event.preventDefault();
+      const next = Math.min(count, starValue + 1);
+      handleClick(next);
+      focusStar(next);
+    }
+    if (event.key === 'ArrowLeft' || event.key === 'ArrowDown') {
+      event.preventDefault();
+      const previous = Math.max(1, starValue - 1);
+      handleClick(previous);
+      focusStar(previous);
+    }
+  };
+
   return (
     <div style={{ display: "flex", alignItems: "center" }}>
       {Array.from({ length: count }, (_, idx) => {
@@ -56,6 +86,8 @@ const RatingStars = ({
             tabIndex={editable ? 0 : -1}
             aria-label={editable ? `Poner ${starValue} estrellas` : undefined}
             role={editable ? "button" : "img"}
+            onKeyDown={(event) => handleKeyDown(event, starValue)}
+            className={editable ? 'focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-400 rounded-sm' : undefined}
           >
             ★
           </span>

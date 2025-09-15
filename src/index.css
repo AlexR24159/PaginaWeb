@@ -2,33 +2,25 @@
 @tailwind components;
 @tailwind utilities;
 
-/* -------- SCROLLBAR GLOBAL (si la quieres fina en todo) -------- */
-::-webkit-scrollbar {
-  width: 5px;
-  height: 5px;
-}
-::-webkit-scrollbar-track {
-  background-color: transparent;
-}
-::-webkit-scrollbar-thumb {
-  border-radius: 25px;
-  transition: all 0.3s;
-  background-color: rgba(106, 115, 125, 0.2);
-}
-::-webkit-scrollbar-corner {
-  display: none;
+/* -------- SCROLLBAR GLOBAL -------- */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(106, 115, 125, 0.4) transparent;
 }
 
-/* -------- SCROLLBAR ESPECIAL SOLO PARA EL GRID -------- */
-.custom-scrollbar::-webkit-scrollbar {
-  height: 16px !important;
+@supports (scrollbar-gutter: stable) {
+  * {
+    scrollbar-gutter: stable both-edges;
+  }
 }
-.custom-scrollbar::-webkit-scrollbar-thumb {
-  background: #2563eb;
-  border-radius: 8px;
+
+.custom-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: #2563eb #dbeafe;
 }
-.custom-scrollbar::-webkit-scrollbar-track {
-  background: #dbeafe;
+
+.custom-scrollbar:hover {
+  scrollbar-color: #1d4ed8 #bfdbfe;
 }
 
 /* -------- FONDO GLOBAL (modo claro/oscuro real en toda la página) -------- */

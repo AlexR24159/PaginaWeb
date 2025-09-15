@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400">
+  <defs>
+    <linearGradient id="grad-sneakers" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#2563eb"/>
+      <stop offset="100%" stop-color="#22d3ee"/>
+    </linearGradient>
+  </defs>
+  <rect width="400" height="400" rx="32" fill="url(#grad-sneakers)"/>
+  <path d="M80 240c40-60 140-60 220-20l20 80H80z" fill="#f1f5f9" opacity="0.95"/>
+  <path d="M120 220c15 0 25-10 60-10 55 0 85 35 110 70" stroke="#2563eb" stroke-width="10" stroke-linecap="round" opacity="0.6"/>
+  <text x="200" y="360" text-anchor="middle" font-family="'Segoe UI',sans-serif" font-size="42" fill="#f8fafc" opacity="0.9">Zapatillas</text>
+</svg>

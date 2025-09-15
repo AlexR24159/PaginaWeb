@@ -1,3 +1,12 @@
+import jacketImage from '../assets/products/jacket.svg';
+import sneakersImage from '../assets/products/sneakers.svg';
+import handbagImage from '../assets/products/handbag.svg';
+import watchImage from '../assets/products/watch.svg';
+import dressImage from '../assets/products/dress.svg';
+import headphonesImage from '../assets/products/headphones.svg';
+import shirtImage from '../assets/products/shirt.svg';
+import sandalsImage from '../assets/products/sandals.svg';
+
 export const sampleProducts = [
   {
     id: '1',
@@ -5,7 +14,8 @@ export const sampleProducts = [
     price: 89.99,
     discount: 0.15,
     description: 'Chaqueta de cuero sintético con acabado vintage. Ideal para un estilo casual y moderno.',
-    imageUrl: 'https://images.unsplash.com/photo-1551028719-00167b16eac5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=675&q=80',
+    imageUrl: jacketImage,
+    images: [jacketImage],
     category: 'Ropa',
     sizes: ['S', 'M', 'L', 'XL'],
     colors: ['Negro', 'Marrón'],
@@ -19,7 +29,8 @@ export const sampleProducts = [
     price: 129.99,
     discount: 0,
     description: 'Zapatillas deportivas de alto rendimiento con amortiguación de aire para mayor comodidad.',
-    imageUrl: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80',
+    imageUrl: sneakersImage,
+    images: [sneakersImage],
     category: 'Zapatos',
     sizes: ['39', '40', '41', '42', '43'],
     colors: ['Blanco', 'Negro', 'Rojo'],
@@ -33,7 +44,8 @@ export const sampleProducts = [
     price: 59.99,
     discount: 0.1,
     description: 'Bolso de mano de cuero genuino con compartimentos interiores y diseño elegante.',
-    imageUrl: 'https://images.unsplash.com/photo-1584917865442-de89df76afd3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1035&q=80',
+    imageUrl: handbagImage,
+    images: [handbagImage],
     category: 'Bolsos',
     sizes: ['Único'],
     colors: ['Marrón', 'Negro'],
@@ -47,7 +59,8 @@ export const sampleProducts = [
     price: 49.99,
     discount: 0.2,
     description: 'Reloj digital impermeable con cronómetro, alarma y función de iluminación.',
-    imageUrl: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1099&q=80',
+    imageUrl: watchImage,
+    images: [watchImage],
     category: 'Accesorios',
     sizes: ['Único'],
     colors: ['Negro', 'Plateado'],
@@ -61,7 +74,8 @@ export const sampleProducts = [
     price: 79.99,
     discount: 0,
     description: 'Vestido elegante para ocasiones especiales con detalles brillantes.',
-    imageUrl: 'https://images.unsplash.com/photo-1595777457583-95e059d581b8?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=783&q=80',
+    imageUrl: dressImage,
+    images: [dressImage],
     category: 'Ropa',
     sizes: ['XS', 'S', 'M', 'L'],
     colors: ['Rojo', 'Negro', 'Azul'],
@@ -75,7 +89,8 @@ export const sampleProducts = [
     price: 149.99,
     discount: 0.25,
     description: 'Auriculares inalámbricos con cancelación de ruido y alta calidad de sonido.',
-    imageUrl: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80',
+    imageUrl: headphonesImage,
+    images: [headphonesImage],
     category: 'Accesorios',
     sizes: ['Único'],
     colors: ['Negro', 'Blanco'],
@@ -89,7 +104,8 @@ export const sampleProducts = [
     price: 45.99,
     discount: 0,
     description: 'Camisa de lino fresca y cómoda para uso casual o semi-formal.',
-    imageUrl: 'https://images.unsplash.com/photo-1596755094514-f87e34085b2c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=776&q=80',
+    imageUrl: shirtImage,
+    images: [shirtImage],
     category: 'Ropa',
     sizes: ['S', 'M', 'L', 'XL', 'XXL'],
     colors: ['Blanco', 'Azul', 'Beige'],
@@ -103,7 +119,8 @@ export const sampleProducts = [
     price: 35.99,
     discount: 0.1,
     description: 'Sandalias cómodas y ligeras, perfectas para el verano.',
-    imageUrl: 'https://images.unsplash.com/photo-1562273138-f46be4ebdf33?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=764&q=80',
+    imageUrl: sandalsImage,
+    images: [sandalsImage],
     category: 'Zapatos',
     sizes: ['36', '37', '38', '39', '40'],
     colors: ['Marrón', 'Negro', 'Beige'],

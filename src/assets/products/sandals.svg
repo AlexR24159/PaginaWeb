@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400">
+  <defs>
+    <linearGradient id="grad-sandals" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#facc15"/>
+      <stop offset="100%" stop-color="#f97316"/>
+    </linearGradient>
+  </defs>
+  <rect width="400" height="400" rx="32" fill="url(#grad-sandals)"/>
+  <path d="M90 250c20-60 120-70 180-10l40 80H110z" fill="#fff7ed" opacity="0.9"/>
+  <path d="M140 230c20-30 60-30 120 10" stroke="#ea580c" stroke-width="12" stroke-linecap="round" opacity="0.6"/>
+  <text x="200" y="360" text-anchor="middle" font-family="'Segoe UI',sans-serif" font-size="40" fill="#fff7ed" opacity="0.92">Sandalias</text>
+</svg>
