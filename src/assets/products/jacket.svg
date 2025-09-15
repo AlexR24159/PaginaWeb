@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400">
+  <defs>
+    <linearGradient id="grad-jacket" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1f2937"/>
+      <stop offset="100%" stop-color="#4b5563"/>
+    </linearGradient>
+  </defs>
+  <rect width="400" height="400" rx="32" fill="url(#grad-jacket)"/>
+  <path d="M130 90h140l20 160-60 60h-60l-60-60z" fill="#f9fafb" opacity="0.9"/>
+  <path d="M200 90v220" stroke="#1f2937" stroke-width="12" stroke-linecap="round" opacity="0.35"/>
+  <text x="200" y="360" text-anchor="middle" font-family="'Segoe UI',sans-serif" font-size="42" fill="#f9fafb" opacity="0.9">Chaqueta</text>
+</svg>

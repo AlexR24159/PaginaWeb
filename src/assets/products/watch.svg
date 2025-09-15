@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400">
+  <defs>
+    <linearGradient id="grad-watch" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+  </defs>
+  <rect width="400" height="400" rx="32" fill="url(#grad-watch)"/>
+  <circle cx="200" cy="200" r="110" fill="#f8fafc" opacity="0.93"/>
+  <line x1="200" y1="200" x2="200" y2="130" stroke="#0f172a" stroke-width="12" stroke-linecap="round"/>
+  <line x1="200" y1="200" x2="250" y2="240" stroke="#334155" stroke-width="10" stroke-linecap="round"/>
+  <rect x="180" y="60" width="40" height="60" rx="16" fill="#cbd5f5" opacity="0.5"/>
+  <rect x="180" y="280" width="40" height="60" rx="16" fill="#cbd5f5" opacity="0.5"/>
+  <text x="200" y="360" text-anchor="middle" font-family="'Segoe UI',sans-serif" font-size="40" fill="#e2e8f0" opacity="0.9">Reloj</text>
+</svg>

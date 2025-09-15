@@ -119,16 +119,25 @@ const ProductCard = ({ product }) => {
     return colorObj ? colorObj.hex : '#fff';
   };
 
+  const handleCardKeyDown = (event) => {
+    if (event.key === 'Enter' || event.key === ' ') {
+      event.preventDefault();
+      openProductPopup(product);
+    }
+  };
+
   return (
     <>
     <div
-      className={`relative rounded-xl overflow-hidden transition-all duration-300 cursor-pointer ${
+      className={`relative rounded-xl overflow-hidden transition-all duration-300 cursor-pointer focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 ${
         darkMode
-          ? 'bg-gray-800 hover:bg-gray-750 border border-gray-700'
-          : 'bg-white hover:bg-gray-50 border border-gray-200'
+          ? 'bg-gray-800 hover:bg-gray-700 border border-gray-700 focus-visible:outline-blue-400'
+          : 'bg-white hover:bg-gray-50 border border-gray-200 focus-visible:outline-blue-500'
       } hover:shadow-md`}
       onClick={() => openProductPopup(product)}
+      onKeyDown={handleCardKeyDown}
       tabIndex={0}
+      role="button"
       title="Ver detalles del producto"
       style={{ userSelect: 'none' }}
     >
