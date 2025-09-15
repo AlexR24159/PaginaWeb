@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400">
+  <defs>
+    <linearGradient id="grad-backpack" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1d4ed8"/>
+      <stop offset="100%" stop-color="#3b82f6"/>
+    </linearGradient>
+    <linearGradient id="grad-backpack-body" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#f8fafc"/>
+      <stop offset="100%" stop-color="#dbeafe"/>
+    </linearGradient>
+  </defs>
+  <rect width="400" height="400" rx="32" fill="url(#grad-backpack)"/>
+  <rect x="120" y="120" width="160" height="200" rx="36" fill="url(#grad-backpack-body)"/>
+  <path d="M140 170h120v70H140z" fill="#93c5fd" opacity="0.9"/>
+  <rect x="180" y="110" width="40" height="40" rx="16" fill="#1d4ed8" opacity="0.8"/>
+  <path d="M150 120q0-30 50-30t50 30" fill="none" stroke="#bfdbfe" stroke-width="12" stroke-linecap="round"/>
+  <circle cx="200" cy="240" r="18" fill="#2563eb" opacity="0.85"/>
+  <path d="M200 222v36" stroke="#1e3a8a" stroke-width="8" stroke-linecap="round" opacity="0.6"/>
+  <text x="200" y="360" text-anchor="middle" font-family="'Segoe UI',sans-serif" font-size="42" fill="#f8fafc" opacity="0.95">Mochila</text>
+</svg>

@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400">
+  <defs>
+    <linearGradient id="grad-ring" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#fbbf24"/>
+      <stop offset="100%" stop-color="#f97316"/>
+    </linearGradient>
+    <radialGradient id="grad-diamond" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="100%" stop-color="#bae6fd"/>
+    </radialGradient>
+  </defs>
+  <rect width="400" height="400" rx="32" fill="url(#grad-ring)" opacity="0.25"/>
+  <rect width="400" height="400" rx="32" fill="#1f2937" opacity="0.15"/>
+  <circle cx="200" cy="220" r="110" fill="none" stroke="#fde68a" stroke-width="26"/>
+  <circle cx="200" cy="220" r="70" fill="none" stroke="#fcd34d" stroke-width="14" opacity="0.8"/>
+  <path d="M200 90l-38 52 38 22 38-22z" fill="url(#grad-diamond)" stroke="#bfdbfe" stroke-width="8"/>
+  <path d="M162 142h76" stroke="#fde68a" stroke-width="10" stroke-linecap="round" opacity="0.8"/>
+  <text x="200" y="360" text-anchor="middle" font-family="'Segoe UI',sans-serif" font-size="42" fill="#fef3c7" opacity="0.95">Anillo</text>
+</svg>

@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400">
+  <defs>
+    <linearGradient id="grad-coffee" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#8b5a2b"/>
+      <stop offset="100%" stop-color="#c08457"/>
+    </linearGradient>
+  </defs>
+  <rect width="400" height="400" rx="32" fill="#1f2937" opacity="0.85"/>
+  <rect x="130" y="100" width="140" height="200" rx="24" fill="url(#grad-coffee)"/>
+  <rect x="150" y="130" width="100" height="120" rx="16" fill="#f5f5f4" opacity="0.9"/>
+  <rect x="160" y="240" width="80" height="40" rx="12" fill="#fef3c7"/>
+  <path d="M150 160h40v60h-40z" fill="#fee2b3" opacity="0.9"/>
+  <path d="M210 160h40v60h-40z" fill="#fee2b3" opacity="0.9"/>
+  <circle cx="200" cy="300" r="22" fill="#111827" opacity="0.8"/>
+  <path d="M190 300h20" stroke="#fef3c7" stroke-width="6" stroke-linecap="round" opacity="0.8"/>
+  <text x="200" y="360" text-anchor="middle" font-family="'Segoe UI',sans-serif" font-size="40" fill="#fef3c7" opacity="0.95">Café</text>
+</svg>

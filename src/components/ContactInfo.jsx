@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useId } from "react";
 import { FaWhatsapp, FaEdit } from "react-icons/fa";
 import { useStore } from '../context/StoreContext';
 import useOutsideClick from '../hooks/useOutsideClick';
@@ -13,6 +13,8 @@ export default function ContactPopover() {
 
   const [open, setOpen] = useState(false);
   const containerRef = useRef(null);
+  const popoverId = useId();
+  const popoverTitleId = `${popoverId}-title`;
   useOutsideClick(containerRef, () => {
     setOpen(false);
     setEditing(false);
@@ -38,21 +40,29 @@ export default function ContactPopover() {
           focus:outline-none
         "
         title="Coordinar por WhatsApp"
+        aria-label="Contactar por WhatsApp"
+        aria-expanded={open}
+        aria-controls={open ? popoverId : undefined}
+        aria-haspopup="dialog"
+        type="button"
       >
         <FaWhatsapp className="text-white text-3xl group-hover:scale-110 transition-transform" />
       </button>
       {/* Popover */}
       {open && (
         <div
-          id="popover-content"
+          id={popoverId}
           className="
             absolute right-0 mt-3 min-w-[260px] z-50
             bg-gray-900 border border-gray-800
             rounded-xl shadow-xl p-4 flex flex-col gap-3
           "
+          role="dialog"
+          aria-modal="false"
+          aria-labelledby={popoverTitleId}
         >
           <div className="flex justify-between items-center mb-2">
-            <div className="text-white font-semibold text-base text-center w-full">
+            <div id={popoverTitleId} className="text-white font-semibold text-base text-center w-full">
               Pagos y entregas<br/>coordinar por WhatsApp
             </div>
             {isAdmin && !editing && (
@@ -108,6 +118,7 @@ export default function ContactPopover() {
                 text-white font-bold shadow transition
                 mt-1
               "
+              aria-label="Abrir conversación de WhatsApp en una nueva pestaña"
             >
               <FaWhatsapp className="text-lg" />
               Chatear por WhatsApp
