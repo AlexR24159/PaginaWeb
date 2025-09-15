@@ -27,19 +27,19 @@ const ModalWrapper = ({
   }, []);
 
   useEffect(() => {
-    if (!isOpen) {
-      return undefined;
-    }
+    if (!isOpen) return;
 
-    previouslyFocusedElement.current = document.activeElement instanceof HTMLElement
-      ? document.activeElement
-      : null;
+    // recuerda el elemento con foco para restaurarlo al cerrar
+    previouslyFocusedElement.current =
+      document.activeElement instanceof HTMLElement ? document.activeElement : null;
 
+    const modalNode = modalRef.current;
+
+    // Solo cerrar con Escape y atrapar Tab cuando el evento ocurre dentro del modal
     const handleKeyDown = (event) => {
-      const currentModal = modalRef.current;
-      if (!currentModal || !currentModal.contains(event.target)) {
-        return;
-      }
+      const targetInsideModal = modalNode && modalNode.contains(event.target);
+
+      if (!targetInsideModal) return; // no interferir mientras se escribe fuera del modal
 
       if (event.key === 'Escape') {
         event.preventDefault();
@@ -51,9 +51,7 @@ const ModalWrapper = ({
         const focusable = getFocusableElements();
         if (focusable.length === 0) {
           event.preventDefault();
-          if (currentModal) {
-            currentModal.focus({ preventScroll: true });
-          }
+          modalNode?.focus?.({ preventScroll: true });
           return;
         }
 
@@ -62,7 +60,7 @@ const ModalWrapper = ({
         const active = document.activeElement;
 
         if (event.shiftKey) {
-          if (active === first || !currentModal.contains(active)) {
+          if (active === first || !modalNode.contains(active)) {
             event.preventDefault();
             last.focus();
           }
@@ -74,60 +72,21 @@ const ModalWrapper = ({
     };
 
     const handleClickOutside = (event) => {
-      const currentModal = modalRef.current;
-      if (currentModal && !currentModal.contains(event.target)) {
+      if (modalNode && !modalNode.contains(event.target)) {
         onClose();
       }
     };
 
-    const modalNode = modalRef.current;
-    if (modalNode) {
-      modalNode.addEventListener('keydown', handleKeyDown);
-    }
-    document.addEventListener('mousedown', handleClickOutside);
-    const previousOverflow = document.body.style.overflow;
-    document.body.style.overflow = 'hidden';
-
-    return () => {
-      if (modalNode) {
-        modalNode.removeEventListener('keydown', handleKeyDown);
-      }
-      document.removeEventListener('mousedown', handleClickOutside);
-      document.body.style.overflow = previousOverflow;
-      if (previouslyFocusedElement.current && typeof previouslyFocusedElement.current.focus === 'function') {
-        previouslyFocusedElement.current.focus({ preventScroll: true });
-      }
-    };
-  }, [getFocusableElements, isOpen, onClose]);
-
-  useEffect(() => {
-    if (!isOpen) {
-      return undefined;
-    }
-
-    let cancelled = false;
-
+    // Enfocar al abrir: preferir initialFocusRef, luego el primer foco "real" (no el botón cerrar)
     const scheduleFocus = (callback) => {
-      if (typeof window !== 'undefined' && typeof window.requestAnimationFrame === 'function') {
-        window.requestAnimationFrame(() => {
-          if (cancelled) return;
-          window.requestAnimationFrame(() => {
-            if (!cancelled) {
-              callback();
-            }
-          });
-        });
+      if (typeof window?.requestAnimationFrame === 'function') {
+        requestAnimationFrame(() => requestAnimationFrame(callback));
       } else {
-        setTimeout(() => {
-          if (!cancelled) {
-            callback();
-          }
-        }, 0);
+        setTimeout(callback, 0);
       }
     };
 
     scheduleFocus(() => {
-      const modalNode = modalRef.current;
       if (!modalNode) return;
 
       const preferred = initialFocusRef?.current;
@@ -141,15 +100,27 @@ const ModalWrapper = ({
 
       if (nextTarget && typeof nextTarget.focus === 'function') {
         nextTarget.focus({ preventScroll: true });
-      } else if (typeof modalNode.focus === 'function') {
-        modalNode.focus({ preventScroll: true });
+      } else {
+        modalNode.focus?.({ preventScroll: true });
       }
     });
 
+    // bloquear scroll del body mientras el modal está abierto
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+
+    document.addEventListener('keydown', handleKeyDown);
+    document.addEventListener('mousedown', handleClickOutside);
+
     return () => {
-      cancelled = true;
+      document.removeEventListener('keydown', handleKeyDown);
+      document.removeEventListener('mousedown', handleClickOutside);
+      document.body.style.overflow = previousOverflow;
+
+      // restaurar foco
+      previouslyFocusedElement.current?.focus?.({ preventScroll: true });
     };
-  }, [getFocusableElements, initialFocusRef, isOpen]);
+  }, [getFocusableElements, initialFocusRef, isOpen, onClose]);
 
   if (!isOpen) return null;
 
@@ -166,35 +137,29 @@ const ModalWrapper = ({
         tabIndex={-1}
       >
         <div className="flex items-center justify-between border-b p-4 px-6 pb-3 pt-4">
-          <h3
-            id={titleId}
-            className="text-lg font-semibold"
-          >
+          <h3 id={titleId} className="text-lg font-semibold">
             {title}
           </h3>
           <button
             onClick={onClose}
             className={`rounded-full p-1 ${
               darkMode
-              ? 'text-gray-400 hover:bg-gray-700 hover:text-white'
-              : 'text-gray-500 hover:bg-gray-200 hover:text-gray-700'
+                ? 'text-gray-400 hover:bg-gray-700 hover:text-white'
+                : 'text-gray-500 hover:bg-gray-200 hover:text-gray-700'
             }`}
             aria-label="Close modal"
             data-modal-close="true"
           >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-5 w-5"
-              viewBox="0 0 20 20" 
-              fill="currentColor"
-            >
-              <path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd" />
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+              <path
+                fillRule="evenodd"
+                d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                clipRule="evenodd"
+              />
             </svg>
           </button>
         </div>
-        <div className="p-6 pt-4">
-          {children}
-        </div>
+        <div className="p-6 pt-4">{children}</div>
       </div>
     </div>
   );

@@ -1,3 +1,4 @@
+// src/data/products.js
 import jacketImage from '../assets/products/jacket.svg';
 import sneakersImage from '../assets/products/sneakers.svg';
 import handbagImage from '../assets/products/handbag.svg';
