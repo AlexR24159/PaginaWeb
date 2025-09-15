@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400">
+  <defs>
+    <linearGradient id="grad-dumbbell" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#16a34a"/>
+      <stop offset="100%" stop-color="#22c55e"/>
+    </linearGradient>
+  </defs>
+  <rect width="400" height="400" rx="32" fill="url(#grad-dumbbell)"/>
+  <rect x="100" y="180" width="200" height="40" rx="16" fill="#dcfce7" opacity="0.85"/>
+  <rect x="130" y="160" width="30" height="80" rx="8" fill="#f0fdf4" opacity="0.9"/>
+  <rect x="240" y="160" width="30" height="80" rx="8" fill="#f0fdf4" opacity="0.9"/>
+  <rect x="80" y="150" width="36" height="120" rx="12" fill="#bbf7d0"/>
+  <rect x="284" y="150" width="36" height="120" rx="12" fill="#bbf7d0"/>
+  <path d="M140 210h120" stroke="#4ade80" stroke-width="12" stroke-linecap="round" opacity="0.8"/>
+  <text x="200" y="360" text-anchor="middle" font-family="'Segoe UI',sans-serif" font-size="42" fill="#f0fdf4" opacity="0.95">Fitness</text>
+</svg>

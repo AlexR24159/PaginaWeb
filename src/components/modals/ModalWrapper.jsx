@@ -1,44 +1,46 @@
 // src/components/modals/ModalWrapper.jsx
-import React, { useEffect, useRef, useId } from 'react';
+import React, { useCallback, useEffect, useRef, useId } from 'react';
 import { useTheme } from '../../context/ThemeContext';
 
 const FOCUSABLE_SELECTORS =
   'a[href], area[href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), button:not([disabled]), [tabindex]:not([tabindex="-1"])';
 
-const ModalWrapper = ({ isOpen, onClose, title, children, maxWidth = 'max-w-lg' }) => {
+const ModalWrapper = ({
+  isOpen,
+  onClose,
+  title,
+  children,
+  maxWidth = 'max-w-lg',
+  initialFocusRef,
+}) => {
   const { darkMode } = useTheme();
   const modalRef = useRef(null);
   const previouslyFocusedElement = useRef(null);
   const titleId = useId();
 
-  useEffect(() => {
-    if (!isOpen) {
-      return undefined;
-    }
+  const getFocusableElements = useCallback(() => {
+    const node = modalRef.current;
+    if (!node) return [];
+    return Array.from(node.querySelectorAll(FOCUSABLE_SELECTORS)).filter(
+      (el) => el instanceof HTMLElement && !el.hasAttribute('aria-hidden')
+    );
+  }, []);
 
-    previouslyFocusedElement.current = document.activeElement instanceof HTMLElement
-      ? document.activeElement
-      : null;
+  useEffect(() => {
+    if (!isOpen) return;
+
+    // recuerda el elemento con foco para restaurarlo al cerrar
+    previouslyFocusedElement.current =
+      document.activeElement instanceof HTMLElement ? document.activeElement : null;
 
     const modalNode = modalRef.current;
 
-    const getFocusableElements = () => {
-      if (!modalNode) return [];
-      return Array.from(modalNode.querySelectorAll(FOCUSABLE_SELECTORS)).filter(
-        (el) => el instanceof HTMLElement && !el.hasAttribute('aria-hidden')
-      );
-    };
-
-    const focusFirstElement = () => {
-      const [firstElement] = getFocusableElements();
-      if (firstElement && typeof firstElement.focus === 'function') {
-        firstElement.focus();
-      } else if (modalNode && typeof modalNode.focus === 'function') {
-        modalNode.focus({ preventScroll: true });
-      }
-    };
-
+    // Solo cerrar con Escape y atrapar Tab cuando el evento ocurre dentro del modal
     const handleKeyDown = (event) => {
+      const targetInsideModal = modalNode && modalNode.contains(event.target);
+
+      if (!targetInsideModal) return; // no interferir mientras se escribe fuera del modal
+
       if (event.key === 'Escape') {
         event.preventDefault();
         onClose();
@@ -49,9 +51,7 @@ const ModalWrapper = ({ isOpen, onClose, title, children, maxWidth = 'max-w-lg' 
         const focusable = getFocusableElements();
         if (focusable.length === 0) {
           event.preventDefault();
-          if (modalNode) {
-            modalNode.focus({ preventScroll: true });
-          }
+          modalNode?.focus?.({ preventScroll: true });
           return;
         }
 
@@ -60,7 +60,7 @@ const ModalWrapper = ({ isOpen, onClose, title, children, maxWidth = 'max-w-lg' 
         const active = document.activeElement;
 
         if (event.shiftKey) {
-          if (active === first || !modalNode?.contains(active)) {
+          if (active === first || !modalNode.contains(active)) {
             event.preventDefault();
             last.focus();
           }
@@ -77,21 +77,50 @@ const ModalWrapper = ({ isOpen, onClose, title, children, maxWidth = 'max-w-lg' 
       }
     };
 
-    document.addEventListener('keydown', handleKeyDown);
-    document.addEventListener('mousedown', handleClickOutside);
+    // Enfocar al abrir: preferir initialFocusRef, luego el primer foco "real" (no el botón cerrar)
+    const scheduleFocus = (callback) => {
+      if (typeof window?.requestAnimationFrame === 'function') {
+        requestAnimationFrame(() => requestAnimationFrame(callback));
+      } else {
+        setTimeout(callback, 0);
+      }
+    };
+
+    scheduleFocus(() => {
+      if (!modalNode) return;
+
+      const preferred = initialFocusRef?.current;
+      if (preferred && modalNode.contains(preferred) && typeof preferred.focus === 'function') {
+        preferred.focus({ preventScroll: true });
+        return;
+      }
+
+      const focusable = getFocusableElements();
+      const nextTarget = focusable.find((el) => !el.hasAttribute('data-modal-close')) || focusable[0];
+
+      if (nextTarget && typeof nextTarget.focus === 'function') {
+        nextTarget.focus({ preventScroll: true });
+      } else {
+        modalNode.focus?.({ preventScroll: true });
+      }
+    });
+
+    // bloquear scroll del body mientras el modal está abierto
+    const previousOverflow = document.body.style.overflow;
     document.body.style.overflow = 'hidden';
 
-    focusFirstElement();
+    document.addEventListener('keydown', handleKeyDown);
+    document.addEventListener('mousedown', handleClickOutside);
 
     return () => {
       document.removeEventListener('keydown', handleKeyDown);
       document.removeEventListener('mousedown', handleClickOutside);
-      document.body.style.overflow = '';
-      if (previouslyFocusedElement.current && typeof previouslyFocusedElement.current.focus === 'function') {
-        previouslyFocusedElement.current.focus({ preventScroll: true });
-      }
+      document.body.style.overflow = previousOverflow;
+
+      // restaurar foco
+      previouslyFocusedElement.current?.focus?.({ preventScroll: true });
     };
-  }, [isOpen, onClose]);
+  }, [getFocusableElements, initialFocusRef, isOpen, onClose]);
 
   if (!isOpen) return null;
 
@@ -108,34 +137,29 @@ const ModalWrapper = ({ isOpen, onClose, title, children, maxWidth = 'max-w-lg' 
         tabIndex={-1}
       >
         <div className="flex items-center justify-between border-b p-4 px-6 pb-3 pt-4">
-          <h3
-            id={titleId}
-            className="text-lg font-semibold"
-          >
+          <h3 id={titleId} className="text-lg font-semibold">
             {title}
           </h3>
           <button
             onClick={onClose}
             className={`rounded-full p-1 ${
-              darkMode 
-              ? 'text-gray-400 hover:bg-gray-700 hover:text-white' 
-              : 'text-gray-500 hover:bg-gray-200 hover:text-gray-700'
+              darkMode
+                ? 'text-gray-400 hover:bg-gray-700 hover:text-white'
+                : 'text-gray-500 hover:bg-gray-200 hover:text-gray-700'
             }`}
             aria-label="Close modal"
+            data-modal-close="true"
           >
-            <svg 
-              xmlns="http://www.w3.org/2000/svg" 
-              className="h-5 w-5" 
-              viewBox="0 0 20 20" 
-              fill="currentColor"
-            >
-              <path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd" />
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+              <path
+                fillRule="evenodd"
+                d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                clipRule="evenodd"
+              />
             </svg>
           </button>
         </div>
-        <div className="p-6 pt-4">
-          {children}
-        </div>
+        <div className="p-6 pt-4">{children}</div>
       </div>
     </div>
   );
