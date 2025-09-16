@@ -42,7 +42,7 @@ const PasswordInput = forwardRef(
             type={isVisible ? 'text' : 'password'}
             value={value}
             onChange={onChange}
-            className={`${inputClassName} pr-10`}
+            className={`${inputClassName} pr-12`}
             placeholder={placeholder}
             autoComplete={autoComplete}
             {...inputProps}
