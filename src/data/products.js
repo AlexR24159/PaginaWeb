@@ -1,3 +1,4 @@
+// src/data/products.js
 import jacketImage from '../assets/products/jacket.svg';
 import sneakersImage from '../assets/products/sneakers.svg';
 import handbagImage from '../assets/products/handbag.svg';
@@ -24,7 +25,8 @@ export const sampleProducts = [
     name: 'Chaqueta de Cuero Vintage',
     price: 89.99,
     discount: 0.15,
-    description: 'Chaqueta de cuero sintético con acabado vintage. Ideal para un estilo casual y moderno.',
+    description:
+      'Chaqueta de cuero sintético con acabado vintage. Ideal para un estilo casual y moderno.',
     imageUrl: jacketImage,
     images: [jacketImage],
     category: 'Ropa',
@@ -39,7 +41,8 @@ export const sampleProducts = [
     name: 'Zapatillas Deportivas Air Max',
     price: 129.99,
     discount: 0,
-    description: 'Zapatillas deportivas de alto rendimiento con amortiguación de aire para mayor comodidad.',
+    description:
+      'Zapatillas deportivas de alto rendimiento con amortiguación de aire para mayor comodidad.',
     imageUrl: sneakersImage,
     images: [sneakersImage],
     category: 'Zapatos',
@@ -54,7 +57,8 @@ export const sampleProducts = [
     name: 'Bolso Elegante de Cuero',
     price: 59.99,
     discount: 0.1,
-    description: 'Bolso de mano de cuero genuino con compartimentos interiores y diseño elegante.',
+    description:
+      'Bolso de mano de cuero genuino con compartimentos interiores y diseño elegante.',
     imageUrl: handbagImage,
     images: [handbagImage],
     category: 'Bolsos',
@@ -69,7 +73,8 @@ export const sampleProducts = [
     name: 'Reloj Digital Impermeable',
     price: 49.99,
     discount: 0.2,
-    description: 'Reloj digital impermeable con cronómetro, alarma y función de iluminación.',
+    description:
+      'Reloj digital impermeable con cronómetro, alarma y función de iluminación.',
     imageUrl: watchImage,
     images: [watchImage],
     category: 'Accesorios',
@@ -84,7 +89,8 @@ export const sampleProducts = [
     name: 'Vestido de Fiesta Elegante',
     price: 79.99,
     discount: 0,
-    description: 'Vestido elegante para ocasiones especiales con detalles brillantes.',
+    description:
+      'Vestido elegante para ocasiones especiales con detalles brillantes.',
     imageUrl: dressImage,
     images: [dressImage],
     category: 'Ropa',
@@ -99,7 +105,8 @@ export const sampleProducts = [
     name: 'Auriculares Inalámbricos',
     price: 149.99,
     discount: 0.25,
-    description: 'Auriculares inalámbricos con cancelación de ruido y alta calidad de sonido.',
+    description:
+      'Auriculares inalámbricos con cancelación de ruido y alta calidad de sonido.',
     imageUrl: headphonesImage,
     images: [headphonesImage],
     category: 'Accesorios',
@@ -114,7 +121,8 @@ export const sampleProducts = [
     name: 'Camisa de Lino Casual',
     price: 45.99,
     discount: 0,
-    description: 'Camisa de lino fresca y cómoda para uso casual o semi-formal.',
+    description:
+      'Camisa de lino fresca y cómoda para uso casual o semi-formal.',
     imageUrl: shirtImage,
     images: [shirtImage],
     category: 'Ropa',
@@ -129,7 +137,8 @@ export const sampleProducts = [
     name: 'Sandalias de Verano',
     price: 35.99,
     discount: 0.1,
-    description: 'Sandalias cómodas y ligeras, perfectas para el verano.',
+    description:
+      'Sandalias cómodas y ligeras, perfectas para el verano.',
     imageUrl: sandalsImage,
     images: [sandalsImage],
     category: 'Zapatos',
@@ -144,7 +153,8 @@ export const sampleProducts = [
     name: 'Mochila Urbana Expandible',
     price: 64.9,
     discount: 0.1,
-    description: 'Mochila resistente al agua con compartimento para laptop y bolsillos ocultos.',
+    description:
+      'Mochila resistente al agua con compartimento para laptop y bolsillos ocultos.',
     imageUrl: backpackImage,
     images: [backpackImage],
     category: 'Bolsos',
@@ -159,7 +169,8 @@ export const sampleProducts = [
     name: 'Collar Minimalista de Plata',
     price: 45.5,
     discount: 0.05,
-    description: 'Collar de plata 925 con dije geométrico pulido y cadena ajustable.',
+    description:
+      'Collar de plata 925 con dije geométrico pulido y cadena ajustable.',
     imageUrl: necklaceImage,
     images: [necklaceImage],
     category: 'Joyería',
@@ -174,7 +185,8 @@ export const sampleProducts = [
     name: 'Anillo Ajustable con Zirconias',
     price: 39.99,
     discount: 0,
-    description: 'Anillo ajustable bañado en oro rosa con incrustaciones de zirconias brillantes.',
+    description:
+      'Anillo ajustable bañado en oro rosa con incrustaciones de zirconias brillantes.',
     imageUrl: ringImage,
     images: [ringImage],
     category: 'Joyería',
@@ -189,7 +201,8 @@ export const sampleProducts = [
     name: 'Tablet HD 10" Conectada',
     price: 299.9,
     discount: 0.12,
-    description: 'Tablet de 10 pulgadas con pantalla Full HD, 128 GB de almacenamiento y batería de larga duración.',
+    description:
+      'Tablet de 10 pulgadas con pantalla Full HD, 128 GB de almacenamiento y batería de larga duración.',
     imageUrl: tabletImage,
     images: [tabletImage],
     category: 'Electrónica',
@@ -204,7 +217,8 @@ export const sampleProducts = [
     name: 'Smartphone Eco Lite',
     price: 549,
     discount: 0.08,
-    description: 'Smartphone con cámara dual de 50 MP, carga rápida y carcasa fabricada con materiales reciclados.',
+    description:
+      'Smartphone con cámara dual de 50 MP, carga rápida y carcasa fabricada con materiales reciclados.',
     imageUrl: smartphoneImage,
     images: [smartphoneImage],
     category: 'Electrónica',
@@ -219,7 +233,8 @@ export const sampleProducts = [
     name: 'Kit de Pesas Ajustables 20kg',
     price: 189.9,
     discount: 0.15,
-    description: 'Set de pesas ajustables con agarre antideslizante y discos recubiertos para entrenamientos en casa.',
+    description:
+      'Set de pesas ajustables con agarre antideslizante y discos recubiertos para entrenamientos en casa.',
     imageUrl: dumbbellImage,
     images: [dumbbellImage],
     category: 'Deporte',
@@ -234,7 +249,8 @@ export const sampleProducts = [
     name: 'Mat de Yoga Antideslizante Pro',
     price: 69.9,
     discount: 0.1,
-    description: 'Colchoneta de yoga de 6 mm con superficie antideslizante y correa de transporte incluida.',
+    description:
+      'Colchoneta de yoga de 6 mm con superficie antideslizante y correa de transporte incluida.',
     imageUrl: yogaMatImage,
     images: [yogaMatImage],
     category: 'Deporte',
@@ -249,7 +265,8 @@ export const sampleProducts = [
     name: 'Lámpara de Mesa Escandinava',
     price: 89,
     discount: 0.07,
-    description: 'Lámpara de mesa con pantalla de lino y base de madera clara para iluminar espacios de descanso.',
+    description:
+      'Lámpara de mesa con pantalla de lino y base de madera clara para iluminar espacios de descanso.',
     imageUrl: lampImage,
     images: [lampImage],
     category: 'Hogar',
@@ -264,7 +281,8 @@ export const sampleProducts = [
     name: 'Cafetera de Goteo Compacta',
     price: 129.5,
     discount: 0.18,
-    description: 'Cafetera de goteo programable con jarra térmica y filtro reutilizable para 12 tazas.',
+    description:
+      'Cafetera de goteo programable con jarra térmica y filtro reutilizable para 12 tazas.',
     imageUrl: coffeeMakerImage,
     images: [coffeeMakerImage],
     category: 'Hogar',
@@ -279,7 +297,8 @@ export const sampleProducts = [
     name: 'Caja de Regalo Sorpresa',
     price: 59,
     discount: 0,
-    description: 'Caja de regalo temática con productos locales, tarjeta personalizable y envoltura premium.',
+    description:
+      'Caja de regalo temática con productos locales, tarjeta personalizable y envoltura premium.',
     imageUrl: giftBoxImage,
     images: [giftBoxImage],
     category: 'Otra',
@@ -294,7 +313,8 @@ export const sampleProducts = [
     name: 'Kit Eco de Oficina',
     price: 74.5,
     discount: 0.05,
-    description: 'Set de oficina sostenible con botella de acero, libreta reciclada y utensilios reutilizables.',
+    description:
+      'Set de oficina sostenible con botella de acero, libreta reciclada y utensilios reutilizables.',
     imageUrl: ecoKitImage,
     images: [ecoKitImage],
     category: 'Otra',
@@ -304,4 +324,27 @@ export const sampleProducts = [
     target: 'Unisex',
     ratings: [5, 4, 4],
   },
+];
+
+// Utilidades opcionales (no obligatorias) para tu UI:
+export const calcFinalPrice = (p) =>
+  Number((p.price * (1 - (p.discount || 0))).toFixed(2));
+
+export const calcAverageRating = (p) =>
+  p.ratings && p.ratings.length
+    ? Number(
+        (p.ratings.reduce((a, b) => a + b, 0) / p.ratings.length).toFixed(1)
+      )
+    : 0;
+
+export const allCategories = [
+  'Ropa',
+  'Zapatos',
+  'Bolsos',
+  'Accesorios',
+  'Joyería',
+  'Electrónica',
+  'Deporte',
+  'Hogar',
+  'Otra',
 ];
