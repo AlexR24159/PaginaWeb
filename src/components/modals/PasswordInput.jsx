@@ -20,8 +20,8 @@ const PasswordInput = forwardRef(
     const [isVisible, setIsVisible] = useState(false);
 
     const iconColorClass = darkMode
-      ? 'text-gray-300 hover:text-white'
-      : 'text-gray-500 hover:text-gray-700';
+      ? 'text-gray-600 hover:text-gray-800 dark:text-gray-300 dark:hover:text-white'
+      : 'text-gray-600 hover:text-gray-800 dark:text-gray-300 dark:hover:text-white';
 
     const toggleVisibility = () => {
       setIsVisible((prev) => !prev);
@@ -54,7 +54,7 @@ const PasswordInput = forwardRef(
             onMouseDown={(event) => {
               event.preventDefault();
             }}
-            className={`absolute inset-y-0 right-2 flex items-center px-1 focus:outline-none ${iconColorClass}`}
+            className={`absolute inset-y-0 right-2 z-10 flex items-center px-1 focus:outline-none ${iconColorClass}`}
           >
             {isVisible ? (
               <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
