@@ -53,7 +53,7 @@ const PasswordInput = forwardRef(
             }}
             className="absolute inset-y-0 right-4 z-10 flex items-center text-sm font-medium text-blue-600 hover:text-blue-800 focus:outline-none"
           >
-            {isVisible ? 'Hide' : 'Show'}
+            {isVisible ? 'Ocultar' : 'Mostrar'}
           </button>
         </div>
       </div>
