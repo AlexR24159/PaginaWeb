@@ -29,17 +29,16 @@ const ModalWrapper = ({
   useEffect(() => {
     if (!isOpen) return;
 
-    // recuerda el elemento con foco para restaurarlo al cerrar
+    // recordar el elemento con foco para restaurarlo al cerrar
     previouslyFocusedElement.current =
       document.activeElement instanceof HTMLElement ? document.activeElement : null;
 
     const modalNode = modalRef.current;
 
-    // Solo cerrar con Escape y atrapar Tab cuando el evento ocurre dentro del modal
+    // Manejo de teclado SOLO si el evento ocurre dentro del modal
     const handleKeyDown = (event) => {
       const targetInsideModal = modalNode && modalNode.contains(event.target);
-
-      if (!targetInsideModal) return; // no interferir mientras se escribe fuera del modal
+      if (!targetInsideModal) return;
 
       if (event.key === 'Escape') {
         event.preventDefault();
@@ -71,13 +70,7 @@ const ModalWrapper = ({
       }
     };
 
-    const handleClickOutside = (event) => {
-      if (modalNode && !modalNode.contains(event.target)) {
-        onClose();
-      }
-    };
-
-    // Enfocar al abrir: preferir initialFocusRef, luego el primer foco "real" (no el botón cerrar)
+    // Enfocar al abrir: preferir initialFocusRef, luego primer foco "real" (no el botón de cerrar)
     const scheduleFocus = (callback) => {
       if (typeof window?.requestAnimationFrame === 'function') {
         requestAnimationFrame(() => requestAnimationFrame(callback));
@@ -92,16 +85,14 @@ const ModalWrapper = ({
       const preferred = initialFocusRef?.current;
       if (preferred && modalNode.contains(preferred) && typeof preferred.focus === 'function') {
         preferred.focus({ preventScroll: true });
-        return;
-      }
-
-      const focusable = getFocusableElements();
-      const nextTarget = focusable.find((el) => !el.hasAttribute('data-modal-close')) || focusable[0];
-
-      if (nextTarget && typeof nextTarget.focus === 'function') {
-        nextTarget.focus({ preventScroll: true });
       } else {
-        modalNode.focus?.({ preventScroll: true });
+        const focusable = getFocusableElements();
+        const nextTarget = focusable.find((el) => !el.hasAttribute('data-modal-close')) || focusable[0];
+        if (nextTarget && typeof nextTarget.focus === 'function') {
+          nextTarget.focus({ preventScroll: true });
+        } else {
+          modalNode.focus?.({ preventScroll: true });
+        }
       }
     });
 
@@ -110,14 +101,10 @@ const ModalWrapper = ({
     document.body.style.overflow = 'hidden';
 
     document.addEventListener('keydown', handleKeyDown);
-    document.addEventListener('mousedown', handleClickOutside);
 
     return () => {
       document.removeEventListener('keydown', handleKeyDown);
-      document.removeEventListener('mousedown', handleClickOutside);
       document.body.style.overflow = previousOverflow;
-
-      // restaurar foco
       previouslyFocusedElement.current?.focus?.({ preventScroll: true });
     };
   }, [getFocusableElements, initialFocusRef, isOpen, onClose]);
@@ -125,7 +112,14 @@ const ModalWrapper = ({
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto bg-black bg-opacity-50 p-4">
+    <div
+      className="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto bg-black bg-opacity-50 p-4"
+      // cerrar solo si el click fue en el fondo, no dentro del modal
+      onMouseDown={(e) => {
+        if (e.currentTarget === e.target) onClose();
+      }}
+      aria-hidden="false"
+    >
       <div
         ref={modalRef}
         className={`${maxWidth} w-full rounded-lg shadow-xl transform transition-all ${
@@ -149,6 +143,7 @@ const ModalWrapper = ({
             }`}
             aria-label="Close modal"
             data-modal-close="true"
+            type="button"
           >
             <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
               <path
