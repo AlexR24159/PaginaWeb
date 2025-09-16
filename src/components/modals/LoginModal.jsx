@@ -1,5 +1,6 @@
 import React, { useState, useRef } from 'react';
 import ModalWrapper from './ModalWrapper';
+import PasswordInput from './PasswordInput';
 import { useStore } from '../../context/StoreContext';
 import { useTheme } from '../../context/ThemeContext';
 import { inputClass, labelClass } from '../../utils/formClasses';
@@ -13,7 +14,6 @@ const LoginModal = () => {
   const [password, setPassword] = useState('');
   const [role, setRole] = useState('cliente');
   const [error, setError] = useState('');
-  const [showPassword, setShowPassword] = useState(false);
 
   const usernameInputRef = useRef(null);
   const registerUsernameRef = useRef(null);
@@ -89,44 +89,17 @@ const LoginModal = () => {
             />
           </div>
 
-          <div>
-            <label htmlFor="password" className={labelClass(darkMode)}>Contraseña</label>
-            <div className="relative">
-              <input
-                id="password"
-                type={showPassword ? 'text' : 'password'}
-                value={password}
-                onChange={e => setPassword(e.target.value)}
-                className={inputCls + ' pr-10'}
-                placeholder="Ingrese su contraseña"
-                autoComplete="current-password"
-              />
-              <button
-                type="button"
-                aria-label={showPassword ? 'Ocultar contraseña' : 'Mostrar contraseña'}
-                onClick={() => setShowPassword((prev) => !prev)}
-                className="absolute inset-y-0 right-2 flex items-center px-1 text-gray-500 focus:outline-none"
-                tabIndex={0}
-              >
-                {showPassword ? (
-                  // Ojo abierto
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
-                          d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
-                          d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
-                  </svg>
-                ) : (
-                  // Ojo cerrado
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
-                          d="M13.875 18.825A10.05 10.05 0 0112 19c-4.477 0-8.268-2.943-9.542-7a9.993 9.993 0 012.293-3.95m2.724-2.632A9.956 9.956 0 0112 5c4.478 0 8.268 2.943 9.542 7-.512 1.634-1.436 3.064-2.662 4.116M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3l18 18"/>
-                  </svg>
-                )}
-              </button>
-            </div>
-          </div>
+          <PasswordInput
+            id="password"
+            label="Contraseña"
+            labelClassName={labelClass(darkMode)}
+            inputClassName={inputCls}
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            placeholder="Ingrese su contraseña"
+            autoComplete="current-password"
+            darkMode={darkMode}
+          />
 
           <div>
             <label htmlFor="role" className={labelClass(darkMode)}>Rol de Usuario</label>
@@ -177,18 +150,17 @@ const LoginModal = () => {
             />
           </div>
 
-          <div>
-            <label htmlFor="new-password" className={labelClass(darkMode)}>Nueva contraseña</label>
-            <input
-              id="new-password"
-              type="password"
-              value={password}
-              onChange={e => setPassword(e.target.value)}
-              className={inputCls}
-              placeholder="Crea tu contraseña"
-              autoComplete="new-password"
-            />
-          </div>
+          <PasswordInput
+            id="new-password"
+            label="Nueva contraseña"
+            labelClassName={labelClass(darkMode)}
+            inputClassName={inputCls}
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            placeholder="Crea tu contraseña"
+            autoComplete="new-password"
+            darkMode={darkMode}
+          />
 
           <div>
             <label htmlFor="new-role" className={labelClass(darkMode)}>Rol de Usuario</label>
