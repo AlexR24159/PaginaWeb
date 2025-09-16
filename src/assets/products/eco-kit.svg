@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400">
+  <defs>
+    <linearGradient id="grad-eco" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#10b981"/>
+      <stop offset="100%" stop-color="#22d3ee"/>
+    </linearGradient>
+  </defs>
+  <rect width="400" height="400" rx="32" fill="#022c22" opacity="0.9"/>
+  <rect x="120" y="130" width="160" height="160" rx="28" fill="url(#grad-eco)"/>
+  <path d="M150 220c40-80 100-60 100-120 20 60-20 140-80 160" fill="#bbf7d0" opacity="0.85"/>
+  <circle cx="180" cy="200" r="30" fill="#ecfeff" opacity="0.7"/>
+  <path d="M200 270c-20-30-60-30-80 0" fill="none" stroke="#6ee7b7" stroke-width="12" stroke-linecap="round"/>
+  <path d="M220 270c20-30 60-30 80 0" fill="none" stroke="#67e8f9" stroke-width="12" stroke-linecap="round"/>
+  <text x="200" y="360" text-anchor="middle" font-family="'Segoe UI',sans-serif" font-size="40" fill="#a7f3d0" opacity="0.95">Eco</text>
+</svg>

@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef } from 'react';
 import ModalWrapper from './ModalWrapper';
 import { useStore } from '../../context/StoreContext';
 import { useTheme } from '../../context/ThemeContext';
@@ -16,14 +16,8 @@ const LoginModal = () => {
   const [showPassword, setShowPassword] = useState(false);
 
   const usernameInputRef = useRef(null);
-
-  useEffect(() => {
-    if (showLoginModal && usernameInputRef.current) {
-      setTimeout(() => {
-        usernameInputRef.current.focus();
-      }, 100);
-    }
-  }, [showLoginModal, mode]);
+  const registerUsernameRef = useRef(null);
+  const activeInitialFocusRef = mode === 'login' ? usernameInputRef : registerUsernameRef;
 
   // LOGIN
   const handleLogin = async (e) => {
@@ -73,6 +67,7 @@ const LoginModal = () => {
       onClose={() => setShowLoginModal(false)}
       title={mode === 'login' ? "Iniciar Sesión" : "Crear Cuenta"}
       maxWidth="max-w-md"
+      initialFocusRef={activeInitialFocusRef}
     >
       {mode === 'login' ? (
         <form onSubmit={handleLogin} className="space-y-5">
@@ -171,11 +166,12 @@ const LoginModal = () => {
           <div>
             <label htmlFor="new-username" className={labelClass(darkMode)}>Nuevo usuario</label>
             <input
+              ref={registerUsernameRef}
               id="new-username"
               type="text"
               value={username}
               onChange={e => setUsername(e.target.value)}
-                className={inputCls}
+              className={inputCls}
               placeholder="Crea tu usuario"
               autoComplete="username"
             />
@@ -188,7 +184,7 @@ const LoginModal = () => {
               type="password"
               value={password}
               onChange={e => setPassword(e.target.value)}
-                className={inputCls}
+              className={inputCls}
               placeholder="Crea tu contraseña"
               autoComplete="new-password"
             />
@@ -200,7 +196,7 @@ const LoginModal = () => {
               id="new-role"
               value={role}
               onChange={e => setRole(e.target.value)}
-                className={inputCls}
+              className={inputCls}
             >
               <option value="cliente">Cliente</option>
               <option value="admin">Administrador</option>

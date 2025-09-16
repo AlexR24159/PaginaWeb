@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400">
+  <defs>
+    <linearGradient id="grad-yoga" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#8b5cf6"/>
+      <stop offset="100%" stop-color="#6366f1"/>
+    </linearGradient>
+  </defs>
+  <rect width="400" height="400" rx="32" fill="url(#grad-yoga)"/>
+  <rect x="110" y="120" width="180" height="180" rx="28" fill="#ede9fe" opacity="0.9"/>
+  <rect x="210" y="120" width="80" height="180" rx="28" fill="#ddd6fe" opacity="0.85"/>
+  <circle cx="240" cy="160" r="28" fill="#a78bfa" opacity="0.9"/>
+  <circle cx="240" cy="160" r="16" fill="#c4b5fd"/>
+  <path d="M140 240h60" stroke="#a855f7" stroke-width="12" stroke-linecap="round" opacity="0.85"/>
+  <path d="M140 270h60" stroke="#c084fc" stroke-width="12" stroke-linecap="round" opacity="0.75"/>
+  <text x="200" y="360" text-anchor="middle" font-family="'Segoe UI',sans-serif" font-size="42" fill="#f5f3ff" opacity="0.95">Yoga</text>
+</svg>

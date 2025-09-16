@@ -28,6 +28,8 @@ const AddEditProductModal = () => {
   const [imageInput, setImageInput] = useState('');
   const [imageUrls, setImageUrls] = useState([]);
   const [isFeatured, setIsFeatured] = useState(false);
+  const [errors, setErrors] = useState({});
+  const [formError, setFormError] = useState(null);
 
   const [formData, setFormData] = useState({
     id: '',
@@ -93,6 +95,8 @@ const AddEditProductModal = () => {
       setIsFeatured(false);
     }
     setImageInput('');
+    setErrors({});
+    setFormError(null);
   }, [editingProduct, showAddEditModal, isAdmin]);
 
   useEffect(() => {
@@ -107,6 +111,13 @@ const AddEditProductModal = () => {
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
+    setFormError(null);
+    setErrors(prev => {
+      if (!prev[name]) return prev;
+      const updated = { ...prev };
+      delete updated[name];
+      return updated;
+    });
   };
 
   const handleSizeToggle = (size) => {
@@ -128,12 +139,33 @@ const AddEditProductModal = () => {
   };
 
   const validateForm = () => {
-    if (!formData.name.trim()) return false;
-    if (!formData.price || isNaN(parseFloat(formData.price)) || parseFloat(formData.price) <= 0) return false;
-    if (isNaN(parseFloat(formData.discount)) || parseFloat(formData.discount) < 0 || parseFloat(formData.discount) > 100) return false;
-    if (!formData.category) return false;
-    if (!imageUrls.length) return false;
-    return true;
+    const newErrors = {};
+
+    if (!formData.name.trim()) {
+      newErrors.name = 'El nombre del producto es obligatorio.';
+    }
+
+    const priceValue = parseFloat(formData.price);
+    if (!formData.price || Number.isNaN(priceValue) || priceValue <= 0) {
+      newErrors.price = 'Ingresa un precio mayor que cero.';
+    }
+
+    const discountValue = formData.discount === '' ? 0 : parseFloat(formData.discount);
+    if (Number.isNaN(discountValue) || discountValue < 0 || discountValue > 100) {
+      newErrors.discount = 'El descuento debe estar entre 0 y 100.';
+    }
+
+    if (!formData.category) {
+      newErrors.category = 'Selecciona una categoría.';
+    }
+
+    if (!imageUrls.length) {
+      newErrors.images = 'Añade al menos una imagen del producto.';
+    }
+
+    setErrors(newErrors);
+
+    return Object.keys(newErrors).length === 0;
   };
 
   // Agregar una imagen a la lista
@@ -142,27 +174,43 @@ const AddEditProductModal = () => {
     if (url && !imageUrls.includes(url)) {
       setImageUrls([...imageUrls, url]);
       setImageInput('');
+      setFormError(null);
+      setErrors(prev => {
+        if (!prev.images) return prev;
+        const updated = { ...prev };
+        delete updated.images;
+        return updated;
+      });
     }
   };
 
   // Quitar imagen por índice
   const handleRemoveImageUrl = (idx) => {
-    setImageUrls(imageUrls.filter((_, i) => i !== idx));
+    setImageUrls(prev => {
+      const updated = prev.filter((_, i) => i !== idx);
+      if (updated.length === 0) {
+        setErrors(err => ({ ...err, images: 'Añade al menos una imagen del producto.' }));
+      }
+      return updated;
+    });
   };
 
   // Enviar el producto
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!validateForm()) {
-      alert('Por favor complete todos los campos requeridos correctamente.');
+      setFormError('Por favor corrige los campos marcados antes de continuar.');
       return;
     }
+    setFormError(null);
+
+    const normalizedDiscount = formData.discount === '' ? 0 : parseFloat(formData.discount);
 
     const productData = {
       ...formData,
       id: formData.id || Date.now().toString(),
       price: parseFloat(formData.price),
-      discount: parseFloat(formData.discount) / 100,
+      discount: normalizedDiscount / 100,
       images: [...imageUrls],
     };
 
@@ -196,6 +244,15 @@ const AddEditProductModal = () => {
       title={isEditing ? 'Editar Producto' : 'Añadir Nuevo Producto'}
     >
       <form onSubmit={handleSubmit} className="flex flex-col h-full max-h-[80vh]">
+        {formError && (
+          <div
+            className="mb-4 rounded-md border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700"
+            role="alert"
+            aria-live="assertive"
+          >
+            {formError}
+          </div>
+        )}
         <div className="flex-1 min-h-0 overflow-y-auto space-y-4 pr-2">
           <div>
             <label htmlFor="name" className={labelCls}>Nombre*</label>
@@ -208,7 +265,14 @@ const AddEditProductModal = () => {
               onChange={handleChange}
               className={inputCls}
               required
+              aria-invalid={errors.name ? 'true' : 'false'}
+              aria-describedby={errors.name ? 'name-error' : undefined}
             />
+            {errors.name && (
+              <p id="name-error" className="mt-1 text-sm text-red-500" role="alert">
+                {errors.name}
+              </p>
+            )}
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -224,7 +288,14 @@ const AddEditProductModal = () => {
                 step="0.01"
                 className={inputCls}
                 required
+                aria-invalid={errors.price ? 'true' : 'false'}
+                aria-describedby={errors.price ? 'price-error' : undefined}
               />
+              {errors.price && (
+                <p id="price-error" className="mt-1 text-sm text-red-500" role="alert">
+                  {errors.price}
+                </p>
+              )}
             </div>
             <div>
               <label htmlFor="discount" className={labelCls}>Descuento (%)</label>
@@ -238,7 +309,14 @@ const AddEditProductModal = () => {
                 max="100"
                 step="1"
                 className={inputCls}
+                aria-invalid={errors.discount ? 'true' : 'false'}
+                aria-describedby={errors.discount ? 'discount-error' : undefined}
               />
+              {errors.discount && (
+                <p id="discount-error" className="mt-1 text-sm text-red-500" role="alert">
+                  {errors.discount}
+                </p>
+              )}
             </div>
           </div>
 
@@ -265,6 +343,7 @@ const AddEditProductModal = () => {
                 value={imageInput}
                 onChange={e => setImageInput(e.target.value)}
                 placeholder="Pega la URL y haz click en +"
+                aria-describedby={errors.images ? 'images-error' : undefined}
               />
               <button
                 type="button"
@@ -290,6 +369,11 @@ const AddEditProductModal = () => {
                 </div>
               ))}
             </div>
+            {errors.images && (
+              <p id="images-error" className="mt-2 text-sm text-red-500" role="alert">
+                {errors.images}
+              </p>
+            )}
           </div>
 
           <div>
@@ -314,6 +398,8 @@ const AddEditProductModal = () => {
                 onChange={handleChange}
                 className={inputCls}
                 required
+                aria-invalid={errors.category ? 'true' : 'false'}
+                aria-describedby={errors.category ? 'category-error' : undefined}
               >
                 <option value="">Seleccionar categoría</option>
                 {CATEGORIES.map(category => (
@@ -322,6 +408,11 @@ const AddEditProductModal = () => {
                   </option>
                 ))}
               </select>
+              {errors.category && (
+                <p id="category-error" className="mt-1 text-sm text-red-500" role="alert">
+                  {errors.category}
+                </p>
+              )}
             </div>
             <div>
               <label htmlFor="brand" className={labelCls}>Marca</label>

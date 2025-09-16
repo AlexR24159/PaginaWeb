@@ -204,7 +204,11 @@ const Header = () => {
           {/* Search, Wishlist, Cart, Theme Toggle, User */}
           <div className="flex items-center gap-4 w-full md:w-auto">
             <div className="relative flex-grow md:flex-grow-0 md:w-64">
+              <label htmlFor="search-products" className="sr-only">
+                Buscar productos
+              </label>
               <input
+                id="search-products"
                 type="text"
                 placeholder="Buscar productos..."
                 value={searchQuery}
@@ -214,6 +218,7 @@ const Header = () => {
                     ? 'bg-gray-700 text-white border-gray-600 focus:bg-gray-600'
                     : 'bg-gray-100 border-gray-200 focus:bg-white'
                 } border focus:outline-none focus:ring-1 focus:ring-blue-500`}
+                aria-describedby="search-hint"
               />
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -224,6 +229,9 @@ const Header = () => {
               >
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
               </svg>
+              <span id="search-hint" className="sr-only">
+                Ingresa texto para filtrar los productos disponibles
+              </span>
             </div>
 
             {/* Wishlist Button */}

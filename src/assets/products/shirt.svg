@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400">
+  <defs>
+    <linearGradient id="grad-shirt" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#38bdf8"/>
+      <stop offset="100%" stop-color="#0ea5e9"/>
+    </linearGradient>
+  </defs>
+  <rect width="400" height="400" rx="32" fill="url(#grad-shirt)"/>
+  <path d="M160 90l40 30 40-30 50 40-30 40-20-10v170h-80V160l-20 10-30-40z" fill="#f8fafc" opacity="0.92"/>
+  <text x="200" y="360" text-anchor="middle" font-family="'Segoe UI',sans-serif" font-size="42" fill="#f8fafc" opacity="0.9">Camisa</text>
+</svg>

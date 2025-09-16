@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400">
+  <defs>
+    <linearGradient id="grad-tablet" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#0ea5e9"/>
+      <stop offset="100%" stop-color="#6366f1"/>
+    </linearGradient>
+  </defs>
+  <rect width="400" height="400" rx="32" fill="url(#grad-tablet)"/>
+  <rect x="90" y="70" width="220" height="260" rx="28" fill="#0f172a" opacity="0.75"/>
+  <rect x="110" y="100" width="180" height="200" rx="20" fill="#1e40af" opacity="0.9"/>
+  <circle cx="200" cy="330" r="10" fill="#f8fafc" opacity="0.8"/>
+  <path d="M140 140h120" stroke="#93c5fd" stroke-width="10" stroke-linecap="round" opacity="0.8"/>
+  <path d="M140 180h120" stroke="#bfdbfe" stroke-width="10" stroke-linecap="round" opacity="0.8"/>
+  <path d="M140 220h120" stroke="#e0f2fe" stroke-width="10" stroke-linecap="round" opacity="0.8"/>
+  <text x="200" y="360" text-anchor="middle" font-family="'Segoe UI',sans-serif" font-size="42" fill="#e0f2fe" opacity="0.95">Tablet</text>
+</svg>

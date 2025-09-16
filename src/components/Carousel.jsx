@@ -75,6 +75,10 @@ const Carousel = () => {
                   alt={title}
                   className="w-full h-40 md:h-48 object-cover rounded-xl select-none pointer-events-none"
                   draggable={false}
+                  loading="lazy"
+                  decoding="async"
+                  width="800"
+                  height="320"
                 />
                 {slide.productId && (
                   <div className="absolute inset-0 bg-black/50 flex flex-col items-center justify-center gap-2 opacity-100 md:opacity-0 md:group-hover:opacity-100 md:group-focus-within:opacity-100 transition-opacity">

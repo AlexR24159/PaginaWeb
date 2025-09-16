@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400">
+  <defs>
+    <linearGradient id="grad-smartphone" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#22d3ee"/>
+      <stop offset="100%" stop-color="#0f766e"/>
+    </linearGradient>
+  </defs>
+  <rect width="400" height="400" rx="32" fill="url(#grad-smartphone)"/>
+  <rect x="130" y="60" width="140" height="280" rx="32" fill="#0f172a" opacity="0.8"/>
+  <rect x="146" y="90" width="108" height="220" rx="20" fill="#0ea5e9" opacity="0.9"/>
+  <circle cx="200" cy="80" r="6" fill="#38bdf8"/>
+  <rect x="176" y="70" width="48" height="6" rx="3" fill="#38bdf8" opacity="0.8"/>
+  <rect x="170" y="324" width="60" height="10" rx="5" fill="#f8fafc" opacity="0.7"/>
+  <path d="M166 140h68v12h-68z" fill="#cffafe" opacity="0.8"/>
+  <path d="M166 172h68v12h-68z" fill="#a5f3fc" opacity="0.8"/>
+  <path d="M166 204h68v12h-68z" fill="#67e8f9" opacity="0.85"/>
+  <text x="200" y="360" text-anchor="middle" font-family="'Segoe UI',sans-serif" font-size="42" fill="#ecfeff" opacity="0.95">Móvil</text>
+</svg>
