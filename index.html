@@ -1,175 +1,34 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Panel de Proyectos - Aurora Labs</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="style.css" />
-  </head>
-  <body>
-    <div class="dashboard">
-      <header class="top-bar">
-        <div class="brand">
-          <h1>Panel Estratégico de Proyectos</h1>
-          <p>Visión general en tiempo real para el equipo de Aurora Labs</p>
-        </div>
-        <div class="meta">
-          <span class="badge neon-blue">Actualizado hace 2 minutos</span>
-          <span class="badge neon-pink">Semana 32</span>
-        </div>
-      </header>
 
-      <main class="grid-layout">
-        <section class="panel" aria-labelledby="personas-ocupadas-titulo">
-          <div class="panel-header">
-            <h2 id="personas-ocupadas-titulo">Personas Ocupadas</h2>
-            <span class="panel-subtitle">Talento actualmente enfocado</span>
-          </div>
-          <div class="scrollable" id="personasOcupadasList">
-            <div class="person-chip" data-person="Ana Pérez">
-              <div class="person-info">
-                <span class="person-name">Ana Pérez</span>
-                <span class="person-role">UX Research</span>
-              </div>
-              <span class="person-badge estado-en-foco">EN FOCO</span>
-            </div>
-            <div class="person-chip" data-person="Luis Rojas">
-              <div class="person-info">
-                <span class="person-name">Luis Rojas</span>
-                <span class="person-role">Ingeniería Web</span>
-              </div>
-              <span class="person-badge estado-en-foco">EN FOCO</span>
-            </div>
-            <div class="person-chip" data-person="Camila Díaz">
-              <div class="person-info">
-                <span class="person-name">Camila Díaz</span>
-                <span class="person-role">Product Management</span>
-              </div>
-              <span class="person-badge estado-en-foco">EN FOCO</span>
-            </div>
-            <div class="person-chip" data-person="Mateo López">
-              <div class="person-info">
-                <span class="person-name">Mateo López</span>
-                <span class="person-role">QA Automation</span>
-              </div>
-              <span class="person-badge estado-en-foco">EN FOCO</span>
-            </div>
-          </div>
-        </section>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta
+    name="description"
+    content="Trendify es tu tienda virtual en Perú con moda, calzado y accesorios seleccionados con envíos rápidos y atención personalizada."
+  />
+  <link rel="canonical" href="https://trendify.pe/" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Trendify - Tienda Virtual" />
+  <meta
+    property="og:description"
+    content="Descubre moda, calzado y accesorios exclusivos en Trendify con ofertas destacadas y pagos seguros."
+  />
+  <meta property="og:url" content="https://trendify.pe/" />
+  <meta property="og:image" content="/og-image.svg" />
+  <meta property="og:image:type" content="image/svg+xml" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="/og-image.svg" />
+  <title>Trendify - Tienda Virtual</title>
+</head>
 
-        <section class="panel" aria-labelledby="progreso-titulo">
-          <div class="panel-header">
-            <h2 id="progreso-titulo">Progreso</h2>
-            <span class="panel-subtitle">Seguimiento de ejecución</span>
-          </div>
-          <div class="scrollable" id="progresoLista">
-            <article class="task-card en-progreso" data-person="Ana Pérez" data-stage="progress">
-              <div class="task-header">
-                <h3>Exploración de nuevas audiencias</h3>
-                <span class="status-badge estado-en-progreso">En Progreso</span>
-              </div>
-              <p class="task-person">Responsable: <strong>Ana Pérez</strong></p>
-              <div class="progress-wrapper">
-                <div class="progress-bar" data-progress="68"></div>
-                <span class="progress-value">68%</span>
-              </div>
-            </article>
+<body>
+  <div id="root"></div>
+  <script type="module" src="/src/main.jsx"></script>
+</body>
 
-            <article class="task-card en-progreso" data-person="Luis Rojas" data-stage="progress">
-              <div class="task-header">
-                <h3>Integración con sistemas heredados</h3>
-                <span class="status-badge estado-en-progreso">En Progreso</span>
-              </div>
-              <p class="task-person">Responsable: <strong>Luis Rojas</strong></p>
-              <div class="progress-wrapper">
-                <div class="progress-bar" data-progress="45" data-auto-progress="true"></div>
-                <span class="progress-value">45%</span>
-              </div>
-            </article>
-
-            <article class="task-card en-progreso" data-person="Camila Díaz" data-stage="progress">
-              <div class="task-header">
-                <h3>Preparación de lanzamiento regional</h3>
-                <span class="status-badge estado-en-progreso">En Progreso</span>
-              </div>
-              <p class="task-person">Responsable: <strong>Camila Díaz</strong></p>
-              <div class="progress-wrapper">
-                <div class="progress-bar" data-progress="92" data-auto-progress="true"></div>
-                <span class="progress-value">92%</span>
-              </div>
-            </article>
-          </div>
-        </section>
-
-        <section class="panel" aria-labelledby="validacion-titulo">
-          <div class="panel-header">
-            <h2 id="validacion-titulo">Validación Pendiente</h2>
-            <span class="panel-subtitle">Acciones requeridas</span>
-          </div>
-          <div class="scrollable" id="validacionPendiente">
-            <article class="task-card pendiente" data-person="Mateo López" data-stage="validation">
-              <div class="task-header">
-                <h3>Testeo regresivo de flujos críticos</h3>
-                <span class="status-badge estado-pendiente">Pendiente de Aprobación</span>
-              </div>
-              <p class="task-person">Responsable: <strong>Mateo López</strong></p>
-              <div class="progress-wrapper">
-                <div class="progress-bar" data-progress="100"></div>
-                <span class="progress-value">100%</span>
-              </div>
-              <div class="card-actions">
-                <button class="btn neon-green approve-btn">✅ APROBAR TAREA</button>
-                <button class="btn neon-red reject-btn">❌ RECHAZAR TAREA</button>
-              </div>
-            </article>
-          </div>
-        </section>
-
-        <section class="panel" aria-labelledby="aprobadas-titulo">
-          <div class="panel-header">
-            <h2 id="aprobadas-titulo">Tareas Aprobadas</h2>
-            <span class="panel-subtitle">Entregas listas para desplegar</span>
-          </div>
-          <div class="scrollable" id="tareasAprobadas"></div>
-          <div class="sub-panel">
-            <div class="sub-header">
-              <h3>Revisión Necesaria</h3>
-              <span class="panel-subtitle">Acciones de seguimiento</span>
-            </div>
-            <div class="scrollable" id="revisionNecesaria"></div>
-          </div>
-        </section>
-
-        <section class="panel" aria-labelledby="disponibles-titulo">
-          <div class="panel-header">
-            <h2 id="disponibles-titulo">Disponibles</h2>
-            <span class="panel-subtitle">Listos para nuevas iniciativas</span>
-          </div>
-          <div class="scrollable" id="disponiblesList">
-            <div class="person-chip disponible" data-person="Sofía Herrera">
-              <div class="person-info">
-                <span class="person-name">Sofía Herrera</span>
-                <span class="person-role">Data Science</span>
-              </div>
-              <span class="person-badge estado-disponible">DISPONIBLE</span>
-            </div>
-            <div class="person-chip disponible" data-person="Valentina Cruz">
-              <div class="person-info">
-                <span class="person-name">Valentina Cruz</span>
-                <span class="person-role">Growth Marketing</span>
-              </div>
-              <span class="person-badge estado-disponible">DISPONIBLE</span>
-            </div>
-          </div>
-        </section>
-      </main>
-    </div>
-    <script src="script.js" defer></script>
-  </body>
 </html>
